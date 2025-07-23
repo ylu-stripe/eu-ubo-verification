@@ -1,13 +1,13 @@
 {
   "files": {
     "main.css": "/eu-ubo-verification/static/css/main.098bef7f.css",
-    "main.js": "/eu-ubo-verification/static/js/main.1829f25e.js",
+    "main.js": "/eu-ubo-verification/static/js/main.925f58df.js",
     "index.html": "/eu-ubo-verification/index.html",
     "main.098bef7f.css.map": "/eu-ubo-verification/static/css/main.098bef7f.css.map",
-    "main.1829f25e.js.map": "/eu-ubo-verification/static/js/main.1829f25e.js.map"
+    "main.925f58df.js.map": "/eu-ubo-verification/static/js/main.925f58df.js.map"
   },
   "entrypoints": [
     "static/css/main.098bef7f.css",
-    "static/js/main.1829f25e.js"
+    "static/js/main.925f58df.js"
   ]
 }
