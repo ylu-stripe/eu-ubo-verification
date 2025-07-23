@@ -1,8 +1,23 @@
-import React from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useEffect } from 'react';
+import { useNavigate, useSearchParams } from 'react-router-dom';
+import { useUBO } from '../contexts/UBOContext';
 
 const ASHEntry: React.FC = () => {
   const navigate = useNavigate();
+  const [searchParams, setSearchParams] = useSearchParams();
+  const { resetState, verificationMethod } = useUBO();
+
+  // Auto-reset flow when returning to ASH after completing verification
+  useEffect(() => {
+    const completedParam = searchParams.get('completed');
+    
+    if (completedParam === 'true' && verificationMethod !== null) {
+      // Reset the flow state so they start fresh next time
+      resetState();
+      // Clean up the URL parameter
+      setSearchParams({});
+    }
+  }, [searchParams, verificationMethod, resetState, setSearchParams]);
 
   const handleTaskClick = (taskId: string) => {
     if (taskId === 'task_ubo') {

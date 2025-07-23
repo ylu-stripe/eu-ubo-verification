@@ -512,9 +512,250 @@ body {
 }
 
 .document-header {
-  border-bottom: 1px solid #e5e7eb;
   padding-bottom: 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.document-info {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.document-icon {
+  font-size: 20px;
+}
+
+.document-name {
+  font-size: 14px;
+  font-weight: 500;
+  color: #1f2937;
+}
+
+.btn-delete {
+  background: none;
+  border: none;
+  color: #6b7280;
+  font-size: 12px;
+  cursor: pointer;
+  padding: 4px 8px;
+  border-radius: 4px;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.btn-delete:hover {
+  background-color: #f3f4f6;
+  color: #374151;
+}
+
+.btn-close-document {
+  background: none;
+  border: none;
+  color: #9ca3af;
+  font-size: 20px;
+  cursor: pointer;
+  padding: 4px;
+  border-radius: 4px;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+}
+
+.btn-close-document:hover {
+  background-color: #f3f4f6;
+  color: #6b7280;
+}
+
+.document-actions {
+  padding: 16px 0 0 0;
+  display: flex;
+  justify-content: center;
+}
+
+.btn-sign-document {
+  background-color: #6366f1;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  padding: 8px 16px;
+  font-size: 14px;
+  width:100%;
+
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.btn-sign-document:hover {
+  background-color: #5145cd;
+}
+
+.document-deleted-state {
+  padding: 32px 20px;
+  text-align: center;
+  background-color: #f9fafb;
+  border: 1px solid #e5e7eb;
+  border-radius: 6px;
+}
+
+.deleted-message {
+  font-size: 14px;
+  color: #6b7280;
+  margin-bottom: 16px;
+  line-height: 1.5;
+}
+
+.document-empty-state {
+  height: 180px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #f9fafb;
+  margin: 12px;
+  border-radius: 4px;
+}
+
+.document-image-container {
+  margin: 12px 12px 0 12px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.document-image {
+  background-color: white;
+  padding: 16px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  height: 150px;
+  overflow: hidden;
+  font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif;
+}
+
+.doc-header {
+  margin-bottom: 12px;
+}
+
+.doc-title {
+  font-size: 13px;
+  font-weight: 600;
+  color: #1f2937;
+  margin-bottom: 4px;
+}
+
+.doc-address {
+  font-size: 11px;
+  color: #6b7280;
+  line-height: 1.3;
+}
+
+.doc-content {
+  margin-top: 8px;
+}
+
+.doc-section-title {
+  font-size: 12px;
+  font-weight: 600;
+  color: #1f2937;
+  margin-bottom: 8px;
+  text-decoration: underline;
+}
+
+.doc-text {
+  font-size: 10px;
+  color: #374151;
+  line-height: 1.4;
+  margin-bottom: 6px;
+}
+
+.highlight-text {
+  color: #dc2626;
+  font-weight: 500;
+}
+
+.document-preview-container {
+  border: 1px solid #e5e7eb;
+  border-radius: 6px;
+  overflow: hidden;
+  background-color: #f9fafb;
+}
+
+.document-preview-content {
+  background-color: white;
+  padding: 12px;
+  margin: 12px;
+  border-radius: 4px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  height: 180px;
+  overflow: hidden;
+}
+
+.document-header-section {
   margin-bottom: 20px;
+}
+
+.attestation-document-title {
+  font-size: 14px;
+  font-weight: 600;
+  color: #1f2937;
+  margin-bottom: 8px;
+}
+
+.document-address {
+  font-size: 12px;
+  color: #6b7280;
+  line-height: 1.4;
+}
+
+.document-address div {
+  margin-bottom: 2px;
+}
+
+.document-section {
+  margin-bottom: 16px;
+}
+
+.section-title {
+  font-size: 13px;
+  font-weight: 600;
+  color: #1f2937;
+  margin-bottom: 12px;
+}
+
+.attestation-text {
+  font-size: 12px;
+  color: #374151;
+  line-height: 1.5;
+}
+
+.attestation-text p {
+  margin-bottom: 12px;
+}
+
+.signature-text {
+  font-style: italic;
+}
+
+.document-signature-info {
+  padding: 12px 0 0 0;
+  font-size: 12px;
+  color: #6b7280;
+}
+
+.disclaimer-section {
+  margin-bottom: 24px;
+}
+
+.disclaimer-text {
+  font-size: 12px;
+  color: #6b7280;
+  line-height: 1.4;
+  margin: 0;
 }
 
 .document-title {
@@ -583,7 +824,6 @@ body {
 
 .document-icon {
   font-size: 20px;
-  margin-right: 12px;
 }
 
 .document-info {
@@ -947,7 +1187,7 @@ body {
 }
 
 .esign-document-content {
-  width: 100%;
+  max-width: 800px;
   text-align: left;
   background-color: white;
   padding: 24px;
@@ -1267,6 +1507,48 @@ body {
   flex: 1;
   font-size: 11px;
   padding: 6px 12px;
+}
+
+/* Flow Lock Warning */
+.flow-lock-warning {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  background-color: #fef3c7;
+  border: 1px solid #f6cc6d;
+  border-radius: 6px;
+  padding: 12px;
+  margin-bottom: 16px;
+}
+
+.lock-warning-icon {
+  font-size: 16px;
+  line-height: 1;
+}
+
+.lock-warning-text {
+  font-size: 11px;
+  color: #92400e;
+  line-height: 1.3;
+}
+
+.lock-warning-text strong {
+  font-weight: 600;
+}
+
+/* Disabled Control Groups */
+.control-group.disabled {
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+.control-group.disabled .control-label {
+  color: #9ca3af;
+}
+
+.control-group.disabled .toggle-label,
+.control-group.disabled .radio-label {
+  color: #9ca3af;
 }
 
 /* ASH Dashboard Styles */

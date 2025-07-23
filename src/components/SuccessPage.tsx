@@ -17,7 +17,7 @@ const SuccessPage: React.FC = () => {
   const isComplete = !userMadeChanges || (userMadeChanges && usedEsign);
 
   const handleContinue = () => {
-    navigate('/ash');
+    navigate('/ash?completed=true');
   };
 
   if (isInReview) {

@@ -12,13 +12,17 @@ const FlowControlPanel: React.FC = () => {
     hasChanges, 
     hasDirectorChanges,
     activeOwners,
-    directors 
+    directors,
+    verificationMethod
   } = useUBO();
   
   // Track pending changes locally
   const [pendingParams, setPendingParams] = useState<FlowParameters>(flowParams);
   const [hasUserToggledParams, setHasUserToggledParams] = useState(false);
   const [hasUserMadeEdits, setHasUserMadeEdits] = useState(false);
+  
+  // Determine if verification flow is active (configs should be locked)
+  const isFlowActive = location.pathname !== '/ash' && location.pathname !== '/';
   
   // Check if there are any pending changes to flow params - only show if user manually toggled
   const hasFlowParamChanges = hasUserToggledParams && JSON.stringify(pendingParams) !== JSON.stringify(flowParams);
@@ -41,6 +45,9 @@ const FlowControlPanel: React.FC = () => {
   }, [location.pathname, hasChanges, hasDirectorChanges]);
 
   const handleToggle = (key: keyof FlowParameters, value: any) => {
+    // Don't allow changes if flow is active
+    if (isFlowActive) return;
+    
     setPendingParams({
       ...pendingParams,
       [key]: value
@@ -78,6 +85,17 @@ const FlowControlPanel: React.FC = () => {
     <div className="flow-control-panel">
       <h3 className="control-panel-title">🛠️ Flow Control Panel</h3>
       
+      {/* Flow Lock Warning */}
+      {isFlowActive && (
+        <div className="flow-lock-warning">
+          <div className="lock-warning-icon">🔒</div>
+          <div className="lock-warning-text">
+            <strong>Config Locked</strong><br/>
+            Settings are locked during verification to prevent mid-flow changes.
+          </div>
+        </div>
+      )}
+      
       {/* Edit Status Section */}
       {hasDataEdits && (
         <div className="edit-status-section">
@@ -105,7 +123,7 @@ const FlowControlPanel: React.FC = () => {
         </div>
       )}
       
-      <div className="control-group">
+      <div className={`control-group ${isFlowActive ? 'disabled' : ''}`}>
         <label className="control-label">UBOs Found:</label>
         <div className="toggle-wrapper">
           <label className="toggle-switch">
@@ -113,6 +131,7 @@ const FlowControlPanel: React.FC = () => {
               type="checkbox"
               checked={pendingParams.ubosFound}
               onChange={(e) => handleToggle('ubosFound', e.target.checked)}
+              disabled={isFlowActive}
             />
             <span className="toggle-slider"></span>
           </label>
@@ -120,7 +139,7 @@ const FlowControlPanel: React.FC = () => {
         </div>
       </div>
 
-      <div className="control-group">
+      <div className={`control-group ${isFlowActive ? 'disabled' : ''}`}>
         <label className="control-label">Directors Found:</label>
         <div className="toggle-wrapper">
           <label className="toggle-switch">
@@ -128,6 +147,7 @@ const FlowControlPanel: React.FC = () => {
               type="checkbox"
               checked={pendingParams.directorsFound}
               onChange={(e) => handleToggle('directorsFound', e.target.checked)}
+              disabled={isFlowActive}
             />
             <span className="toggle-slider"></span>
           </label>
@@ -135,7 +155,7 @@ const FlowControlPanel: React.FC = () => {
         </div>
       </div>
 
-      <div className="control-group">
+      <div className={`control-group ${isFlowActive ? 'disabled' : ''}`}>
         <label className="control-label">Legal Entity:</label>
         <div className="radio-group">
           <label className="radio-option">
@@ -144,6 +164,7 @@ const FlowControlPanel: React.FC = () => {
               name="legalEntity"
               checked={pendingParams.legalEntityMatch === 'trulioo_stripe'}
               onChange={() => handleToggle('legalEntityMatch', 'trulioo_stripe')}
+              disabled={isFlowActive}
             />
             <span className="radio-label">Trulioo = Stripe</span>
           </label>
@@ -153,6 +174,7 @@ const FlowControlPanel: React.FC = () => {
               name="legalEntity"
               checked={pendingParams.legalEntityMatch === 'trulioo_no_response'}
               onChange={() => handleToggle('legalEntityMatch', 'trulioo_no_response')}
+              disabled={isFlowActive}
             />
             <span className="radio-label">No Response</span>
           </label>
@@ -162,6 +184,7 @@ const FlowControlPanel: React.FC = () => {
               name="legalEntity"
               checked={pendingParams.legalEntityMatch === 'trulioo_not_stripe'}
               onChange={() => handleToggle('legalEntityMatch', 'trulioo_not_stripe')}
+              disabled={isFlowActive}
             />
             <span className="radio-label">Trulioo ≠ Stripe</span>
           </label>
@@ -172,7 +195,7 @@ const FlowControlPanel: React.FC = () => {
         <strong>Current Flow:</strong> {pendingParams.ubosFound ? 'UBO Found' : 'No UBOs Found → Directors'}
       </div>
 
-      {hasFlowParamChanges && (
+      {hasFlowParamChanges && !isFlowActive && (
         <div className="control-actions">
          
           <button 

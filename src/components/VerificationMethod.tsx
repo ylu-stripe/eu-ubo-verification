@@ -43,7 +43,7 @@ const VerificationMethod: React.FC = () => {
 
   const handleESignComplete = () => {
     setShowESignModal(false);
-    navigate('/success');
+    navigate('/review-attestation');
   };
 
   const handleESignClose = () => {
@@ -57,20 +57,20 @@ const VerificationMethod: React.FC = () => {
           ← Back
         </button>
 
-        <h1 className="page-title">We need to verify your {listTypeTitle}</h1>
+        <h1 className="page-title">How would you like to verify?</h1>
         <p className="page-description">
-                  You'll need to upload additional documents to verify your {isDirectors ? 'corporate structure' : 'ownership structures'}, since it doesn't match what we've pulled from public records.{' '}
-        <a href="#" className="inline-link">
-          View support article
-        </a>
+          Choose how you'd like to verify your {listTypeTitle} information.
         </p>
 
         <div className="mb-32">
           <div className="verification-owners-section">
             <div className="verification-owners-header">
-              <h3 className="section-title">{listTypeTitle.charAt(0).toUpperCase() + listTypeTitle.slice(1)}</h3>
+              <h3 className="section-title">{listType.charAt(0).toUpperCase() + listType.slice(1)} ({currentList.length})</h3>
+              <button onClick={handleEdit} className="btn-edit">
+                ✏️ Edit
+              </button>
             </div>
-            
+
             <div className="verification-owners-list">
               {currentList.map((item) => (
                 <div key={item.id} className="verification-owner-item">
@@ -87,7 +87,7 @@ const VerificationMethod: React.FC = () => {
         </div>
 
         <div className="mb-32">
-          <h3 className="section-title">Select method</h3>
+          <h3 className="section-title">Verification method</h3>
           
           <div className="method-options">
             <div 
@@ -100,14 +100,15 @@ const VerificationMethod: React.FC = () => {
                 </div>
                 <div className="method-info">
                   <div className="method-title">
-                    Electronically sign an [attestation]
+                    Electronic signature <span className="method-badge">Recommended</span>
                   </div>
-                  <div className="method-badge">Recommended</div>
                 </div>
               </div>
               <div className="method-preview">
-                <div style={{ fontSize: '12px', color: '#6b7280', lineHeight: '1.4', marginTop: '8px' }}>
-                  Sign a legal document electronically to certify the accuracy of your {isDirectors ? 'directors and officers' : 'beneficial ownership'} information. This is typically the fastest verification method.
+                <div className="preview-lines">
+                  <div className="preview-line long" />
+                  <div className="preview-line medium" />
+                  <div className="preview-line short" />
                 </div>
               </div>
             </div>
