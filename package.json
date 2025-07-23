@@ -2,7 +2,7 @@
   "name": "eu-ubo-verification",
   "version": "1.0.0",
   "private": true,
-  "homepage": "https://ylu.github.io/eu-ubo-verification",
+  "homepage": "https://ylu-stripe.github.io/eu-ubo-verification",
   "dependencies": {
     "@types/node": "^16.18.0",
     "@types/react": "^18.2.0",
