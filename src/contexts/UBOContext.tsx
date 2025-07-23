@@ -5,6 +5,9 @@ export interface FlowParameters {
   ubosFound: boolean;
   directorsFound: boolean;
   legalEntityMatch: 'trulioo_stripe' | 'trulioo_no_response' | 'trulioo_not_stripe';
+  kybComplete: boolean;
+  kybRequiresManualReview: boolean;
+  kybMvrComplete: boolean;
 }
 
 interface UBOContextType {
@@ -23,8 +26,11 @@ interface UBOContextType {
   hasChanges: () => boolean;
   hasDirectorChanges: () => boolean;
   resetState: () => void;
+  resetDirectorsForFlow: () => void;
   shouldShowDirectors: () => boolean;
   isDirectorsFlow: () => boolean;
+  shouldShowKYB: () => boolean;
+  shouldShowUBO: () => boolean;
 }
 
 const UBOContext = createContext<UBOContextType | undefined>(undefined);
@@ -44,7 +50,10 @@ export const UBOProvider: React.FC<UBOProviderProps> = ({ children, initialOwner
   const [flowParams, setFlowParams] = useState<FlowParameters>({
     ubosFound: true,
     directorsFound: true,
-    legalEntityMatch: 'trulioo_stripe'
+    legalEntityMatch: 'trulioo_stripe',
+    kybComplete: false,
+    kybRequiresManualReview: false,
+    kybMvrComplete: false
   });
 
   const hasChanges = () => {
@@ -52,6 +61,11 @@ export const UBOProvider: React.FC<UBOProviderProps> = ({ children, initialOwner
   };
 
   const hasDirectorChanges = () => {
+    // If flow says no directors found, empty directors array is not a change
+    if (!flowParams.directorsFound && directors.length === 0) {
+      return false;
+    }
+    
     // Check if directors list has changed from initial
     if (directors.length !== initialDirectors.length) return true;
     
@@ -66,12 +80,35 @@ export const UBOProvider: React.FC<UBOProviderProps> = ({ children, initialOwner
     return hasRemovedDirectors || hasNewDirectors;
   };
 
+  const resetDirectorsForFlow = () => {
+    // Clear directors array for "no directors found" flow
+    setDirectors([]);
+  };
+
   const shouldShowDirectors = () => {
-    return !flowParams.ubosFound && flowParams.directorsFound;
+    // Show directors flow when no UBOs found (regardless of directors pre-fill status)
+    return !flowParams.ubosFound;
   };
 
   const isDirectorsFlow = () => {
     return shouldShowDirectors();
+  };
+
+  const shouldShowKYB = () => {
+    // Show KYB task when KYB is not complete
+    return !flowParams.kybComplete;
+  };
+
+  const shouldShowUBO = () => {
+    // Show UBO task when KYB is complete
+    if (!flowParams.kybComplete) return false;
+    
+    // If KYB required manual review, only show UBO after MVR is complete
+    if (flowParams.kybRequiresManualReview && !flowParams.kybMvrComplete) {
+      return false;
+    }
+    
+    return true;
   };
 
   const resetState = () => {
@@ -98,8 +135,11 @@ export const UBOProvider: React.FC<UBOProviderProps> = ({ children, initialOwner
     hasChanges,
     hasDirectorChanges,
     resetState,
+    resetDirectorsForFlow,
     shouldShowDirectors,
     isDirectorsFlow,
+    shouldShowKYB,
+    shouldShowUBO
   };
 
   return <UBOContext.Provider value={value}>{children}</UBOContext.Provider>;

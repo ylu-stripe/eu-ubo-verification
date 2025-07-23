@@ -5,17 +5,17 @@ import Modal from './Modal';
 
 const NoUBOsFound: React.FC = () => {
   const navigate = useNavigate();
-  const { setFlowParams, setDirectors } = useUBO();
+  const { setFlowParams, resetDirectorsForFlow } = useUBO();
 
   const handleContinueWithNoOwners = () => {
-    // Switch to directors flow and go to transition page first
+    // Switch to directors flow - no directors found, but will collect manually
     setFlowParams({
       ubosFound: false,
-      directorsFound: true,
+      directorsFound: false,
       legalEntityMatch: 'trulioo_stripe'
     });
-    // Clear directors array to show empty state
-    setDirectors([]);
+    // Clear directors array for empty state without triggering edit detection
+    resetDirectorsForFlow();
     navigate('/no-ubos-transition');
   };
 

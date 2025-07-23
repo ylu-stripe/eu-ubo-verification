@@ -35,6 +35,12 @@ const FlowControlPanel: React.FC = () => {
     setPendingParams(flowParams);
   }, []); // Empty dependency array - only run on mount
 
+  // Reset edit tracking when flow parameters change (programmatic flow switches)
+  useEffect(() => {
+    // Reset edit tracking when switching between different flows
+    setHasUserMadeEdits(false);
+  }, [flowParams.ubosFound, flowParams.directorsFound]);
+
   // Track when user actually makes edits (more conservative approach)
   useEffect(() => {
     // Only mark as having made edits if they have actual changes AND visited edit pages
@@ -156,6 +162,58 @@ const FlowControlPanel: React.FC = () => {
       </div>
 
       <div className={`control-group ${isFlowActive ? 'disabled' : ''}`}>
+        <label className="control-label">KYB Complete:</label>
+        <div className="toggle-wrapper">
+          <label className="toggle-switch">
+            <input
+              type="checkbox"
+              checked={pendingParams.kybComplete}
+              onChange={(e) => handleToggle('kybComplete', e.target.checked)}
+              disabled={isFlowActive}
+            />
+            <span className="toggle-slider"></span>
+          </label>
+          <span className="toggle-label">{pendingParams.kybComplete ? 'Yes' : 'No'}</span>
+        </div>
+      </div>
+
+      {!pendingParams.kybComplete && (
+        <div className={`control-group ${isFlowActive ? 'disabled' : ''}`}>
+          <label className="control-label">KYB Requires Manual Review:</label>
+          <div className="toggle-wrapper">
+            <label className="toggle-switch">
+              <input
+                type="checkbox"
+                checked={pendingParams.kybRequiresManualReview}
+                onChange={(e) => handleToggle('kybRequiresManualReview', e.target.checked)}
+                disabled={isFlowActive}
+              />
+              <span className="toggle-slider"></span>
+            </label>
+            <span className="toggle-label">{pendingParams.kybRequiresManualReview ? 'Yes' : 'No'}</span>
+          </div>
+        </div>
+      )}
+
+      {pendingParams.kybRequiresManualReview && !pendingParams.kybComplete && (
+        <div className={`control-group ${isFlowActive ? 'disabled' : ''}`}>
+          <label className="control-label">KYB MVR Complete:</label>
+          <div className="toggle-wrapper">
+            <label className="toggle-switch">
+              <input
+                type="checkbox"
+                checked={pendingParams.kybMvrComplete}
+                onChange={(e) => handleToggle('kybMvrComplete', e.target.checked)}
+                disabled={isFlowActive}
+              />
+              <span className="toggle-slider"></span>
+            </label>
+            <span className="toggle-label">{pendingParams.kybMvrComplete ? 'Yes' : 'No'}</span>
+          </div>
+        </div>
+      )}
+
+      <div className={`control-group ${isFlowActive ? 'disabled' : ''}`}>
         <label className="control-label">Legal Entity:</label>
         <div className="radio-group">
           <label className="radio-option">
@@ -192,7 +250,11 @@ const FlowControlPanel: React.FC = () => {
       </div>
 
       <div className="control-status">
-        <strong>Current Flow:</strong> {pendingParams.ubosFound ? 'UBO Found' : 'No UBOs Found → Directors'}
+        <strong>Current Flow:</strong> {
+          !pendingParams.kybComplete ? 'KYB Verification' :
+          pendingParams.kybRequiresManualReview && !pendingParams.kybMvrComplete ? 'KYB In Review' :
+          pendingParams.ubosFound ? 'UBO Found' : 'No UBOs Found → Directors'
+        }
       </div>
 
       {hasFlowParamChanges && !isFlowActive && (

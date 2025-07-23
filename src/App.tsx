@@ -1,10 +1,13 @@
 import React from 'react';
-import { Routes, Route, Navigate } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import { UBOProvider } from './contexts/UBOContext';
+import { mockCompanyData } from './data/mockData';
+import FlowControlPanel from './components/FlowControlPanel';
 import ASHEntry from './components/ASHEntry';
+import EditPage from './components/EditPage';
 import ConfirmPage from './components/ConfirmPage';
 import ConfirmStructure from './components/ConfirmStructure';
 import VerifyOwnership from './components/VerifyOwnership';
-import EditPage from './components/EditPage';
 import NoUBOsTransition from './components/NoUBOsTransition';
 import NoUBOsFound from './components/NoUBOsFound';
 import CompanyInformation from './components/CompanyInformation';
@@ -12,12 +15,12 @@ import OrgTreeBuilder from './components/OrgTreeBuilder';
 import VerificationMethod from './components/VerificationMethod';
 import DocumentReview from './components/DocumentReview';
 import ReviewAttestation from './components/ReviewAttestation';
-import FlowControlPanel from './components/FlowControlPanel';
 import EditBusinessStructure from './components/EditBusinessStructure';
 import SuccessPage from './components/SuccessPage';
 import DocumentReviewPage from './components/DocumentReviewPage';
-import { UBOProvider } from './contexts/UBOContext';
-import { mockCompanyData } from './data/mockData';
+import KYBVerification from './components/KYBVerification';
+import KYBReview from './components/KYBReview';
+import KYBSuccess from './components/KYBSuccess';
 import './App.css';
 
 const App: React.FC = () => {
@@ -28,6 +31,9 @@ const App: React.FC = () => {
         <Routes>
           <Route path="/" element={<Navigate to="/ash" replace />} />
           <Route path="/ash" element={<ASHEntry />} />
+          <Route path="/kyb-verification" element={<KYBVerification />} />
+          <Route path="/kyb-review" element={<KYBReview />} />
+          <Route path="/kyb-success" element={<KYBSuccess />} />
           <Route path="/edit-owners" element={<EditPage />} />
           <Route path="/confirm-owners" element={<ConfirmPage />} />
           <Route path="/confirm-structure" element={<ConfirmStructure />} />
