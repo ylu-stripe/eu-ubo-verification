@@ -9,7 +9,7 @@ const root = ReactDOM.createRoot(
 
 root.render(
   <React.StrictMode>
-    <BrowserRouter basename="/eu-ubo-verification">
+    <BrowserRouter basename={process.env.NODE_ENV === 'production' ? '/eu-ubo-verification' : ''}>
       <App />
     </BrowserRouter>
   </React.StrictMode>
