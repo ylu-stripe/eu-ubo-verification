@@ -1,10 +1,11 @@
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
-import { useUBO } from '../contexts/UBOContext';
-import Modal from './Modal';
+import { useNavigate, useLocation } from 'react-router-dom';
+import { useUBO } from '../../../contexts/UBOContext';
+import Modal from '../../ui/Modal';
 
 const ConfirmPage: React.FC = () => {
   const navigate = useNavigate();
+  const location = useLocation();
   const { 
     activeOwners, 
     directors, 
@@ -14,7 +15,8 @@ const ConfirmPage: React.FC = () => {
     hasDirectorChanges 
   } = useUBO();
 
-  const isDirectors = isDirectorsFlow();
+  // Determine if this is directors mode based on URL route, not just flow parameters
+  const isDirectors = location.pathname === '/confirm-directors' || isDirectorsFlow();
   const currentList = isDirectors ? directors : activeOwners;
   const hasCurrentChanges = isDirectors ? hasDirectorChanges : hasChanges;
 
@@ -64,7 +66,7 @@ const ConfirmPage: React.FC = () => {
 
         <h1 className="page-title">Are these directors correct?</h1>
         <p className="page-description">
-          D&Os are senior directors or officers who significantly influence your organization. Verification required for non-profits or government entities. Verify this list accurately represents your beneficial owners.{' '}
+          Directors and executives are senior individuals who significantly influence your organization. Verification required for non-profits or government entities. Verify this list accurately represents your beneficial owners.{' '}
           <a href="#" className="inline-link">
             View support article
           </a>
@@ -81,7 +83,7 @@ const ConfirmPage: React.FC = () => {
         )}
 
         <div className="mb-32">
-          <h3 className="section-title">Directors and officers ({directors.length})</h3>
+          <h3 className="section-title">Directors and executives ({directors.length})</h3>
 
           {directors.length > 0 ? (
             <>
@@ -91,11 +93,6 @@ const ConfirmPage: React.FC = () => {
                 {directors.map((director) => (
                   <div key={director.id} className="owner-suggestion">
                     {director.name}
-                    {director.role && (
-                      <div style={{ fontSize: '12px', color: '#6b7280', marginTop: '2px' }}>
-                        {director.role}
-                      </div>
-                    )}
                   </div>
                 ))}
               </div>
@@ -104,7 +101,7 @@ const ConfirmPage: React.FC = () => {
             <div className="empty-state-dashed">
               <div className="empty-state-dashed-inner">
                 <div className="empty-state-dashed-text">
-                  There are no Directors and officers. You must add at least one director or officer to continue.
+                  There are no directors and executives. You must add at least one director or executive to continue.
                 </div>
               </div>
               <button 
@@ -159,7 +156,7 @@ const ConfirmPage: React.FC = () => {
 
       <h1 className="page-title">Are these beneficial owners correct?</h1>
       <p className="page-description">
-        Ultimate Beneficial Owners are individuals with over 25% ownership or control of a business, directly or indirectly. Verify this list accurately represents your beneficial owners.{' '}
+        Beneficial owners are individuals with over 25% ownership or control of a business, directly or indirectly. Verify this list accurately represents your beneficial owners.{' '}
         <a href="#" className="inline-link">
           View support article
         </a>

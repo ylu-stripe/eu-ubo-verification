@@ -1,0 +1,59 @@
+# Integration Example
+
+To test the experimental components in your main application, add this route to your App.tsx:
+
+## 1. Add import to App.tsx
+```tsx
+import Demo from './components/experimental/Demo';
+```
+
+## 2. Add route to your Routes component
+```tsx
+<Routes>
+  {/* ... existing routes ... */}
+  <Route path="/experimental" element={<Demo />} />
+</Routes>
+```
+
+## 3. Navigate to the experimental page
+Visit: http://localhost:3000/experimental
+
+## 4. Alternative: Quick test in any component
+```tsx
+import React, { useState } from 'react';
+import EditPage from './components/experimental/EditPage';
+import { mockCompanyData } from './components/experimental/mockData';
+
+const MyTestComponent = () => {
+  const [showExperimental, setShowExperimental] = useState(false);
+
+  if (showExperimental) {
+    return (
+      <EditPage 
+        isDirectorsFlow={false}
+        initialData={[]} // Start with empty list
+        onSave={(items) => {
+          console.log('Experimental save:', items);
+          setShowExperimental(false);
+        }}
+      />
+    );
+  }
+
+  return (
+    <div>
+      <button onClick={() => setShowExperimental(true)}>
+        Test Experimental Edit Page
+      </button>
+    </div>
+  );
+};
+```
+
+## 5. Testing scenarios to try:
+- Empty UBO page (simulates "no + no" flow)
+- Prefilled UBO page (simulates normal UBO flow)  
+- Directors page (simulates directors flow)
+- Add/remove functionality
+- Percentage validation for UBOs
+- Form validation and error states 

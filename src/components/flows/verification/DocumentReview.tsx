@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useUBO } from '../contexts/UBOContext';
-import Modal from './Modal';
+import { useUBO } from '../../../contexts/UBOContext';
+import Modal from '../../ui/Modal';
 import ESignModal from './ESignModal';
 
 const DocumentReview: React.FC = () => {
@@ -11,8 +11,8 @@ const DocumentReview: React.FC = () => {
 
   const isDirectors = isDirectorsFlow();
   const currentList = isDirectors ? directors : activeOwners;
-  const documentTitle = isDirectors ? 'Corporate Structure Disclosure' : 'Ultimate Beneficial Ownership Disclosure';
-  const listType = isDirectors ? 'directors and officers' : 'beneficial owners';
+  const documentTitle = isDirectors ? 'Corporate Structure Disclosure' : 'Beneficial Ownership Disclosure';
+  const listType = isDirectors ? 'directors and executives' : 'beneficial owners';
 
   const handleBack = () => {
     navigate('/verification-method');
@@ -57,13 +57,13 @@ const DocumentReview: React.FC = () => {
             <div className="document-content">
               <div className="document-line">
                 {isDirectors 
-                  ? 'D&Os are senior directors or officers who significantly influence your organization and corporate governance.'
-                  : 'UBO (Ultimate Beneficial Owner) is any individual who, directly or indirectly, exercises ultimate ownership or control over the company.'
+                  ? 'Directors and executives are senior individuals who significantly influence your organization and corporate governance.'
+                  : 'Beneficial owner is any individual who, directly or indirectly, exercises ownership or control over the company.'
                 }
               </div>
               <div className="document-line"></div>
               <div className="document-line">
-                I hereby certify that the information contained in this report accurately reflects the {isDirectors ? 'corporate structure and leadership' : 'ultimate beneficial ownership'} of the company as of the date below and that I have read and understand the statement on accuracy of reports.
+                I hereby certify that the information contained in this report accurately reflects the {isDirectors ? 'corporate structure and leadership' : 'beneficial ownership'} of the company as of the date below and that I have read and understand the statement on accuracy of reports.
               </div>
             </div>
             

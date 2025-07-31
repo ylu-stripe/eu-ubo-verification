@@ -8,6 +8,11 @@ export interface FlowParameters {
   kybComplete: boolean;
   kybRequiresManualReview: boolean;
   kybMvrComplete: boolean;
+  // Add requirement completion tracking
+  kybRequirementComplete: boolean;
+  uboRequirementComplete: boolean;
+  // Sandbox mode matching strategy
+  twoWayMatch?: boolean;
 }
 
 interface UBOContextType {
@@ -31,6 +36,16 @@ interface UBOContextType {
   isDirectorsFlow: () => boolean;
   shouldShowKYB: () => boolean;
   shouldShowUBO: () => boolean;
+  // Add requirement completion methods
+  markKYBRequirementComplete: () => void;
+  markUBORequirementComplete: () => void;
+  // Toast system
+  toast: string | null;
+  showToast: (message: string) => void;
+  clearToast: () => void;
+  // Sandbox mode
+  sandboxMode: boolean;
+  setSandboxMode: (enabled: boolean) => void;
 }
 
 const UBOContext = createContext<UBOContextType | undefined>(undefined);
@@ -47,13 +62,17 @@ export const UBOProvider: React.FC<UBOProviderProps> = ({ children, initialOwner
   const [newOwners, setNewOwners] = useState<BeneficialOwner[]>([]);
   const [directors, setDirectors] = useState<BeneficialOwner[]>(initialDirectors);
   const [verificationMethod, setVerificationMethod] = useState<'electronic' | 'upload' | null>(null);
+  const [toast, setToast] = useState<string | null>(null);
+  const [sandboxMode, setSandboxMode] = useState<boolean>(false);
   const [flowParams, setFlowParams] = useState<FlowParameters>({
     ubosFound: true,
     directorsFound: true,
     legalEntityMatch: 'trulioo_stripe',
-    kybComplete: false,
+    kybComplete: true,
     kybRequiresManualReview: false,
-    kybMvrComplete: false
+    kybMvrComplete: false,
+    kybRequirementComplete: false,
+    uboRequirementComplete: false
   });
 
   const hasChanges = () => {
@@ -86,8 +105,9 @@ export const UBOProvider: React.FC<UBOProviderProps> = ({ children, initialOwner
   };
 
   const shouldShowDirectors = () => {
-    // Show directors flow when no UBOs found (regardless of directors pre-fill status)
-    return !flowParams.ubosFound;
+    // Show directors flow only when no UBOs found AND directors are found
+    // Otherwise, always prioritize UBO flow
+    return !flowParams.ubosFound && flowParams.directorsFound;
   };
 
   const isDirectorsFlow = () => {
@@ -95,20 +115,37 @@ export const UBOProvider: React.FC<UBOProviderProps> = ({ children, initialOwner
   };
 
   const shouldShowKYB = () => {
-    // Show KYB task when KYB is not complete
-    return !flowParams.kybComplete;
+    // Show KYB task when KYB is not complete (neither kybComplete nor kybRequirementComplete)
+    return !flowParams.kybComplete && !flowParams.kybRequirementComplete;
   };
 
   const shouldShowUBO = () => {
-    // Show UBO task when KYB is complete
-    if (!flowParams.kybComplete) return false;
-    
-    // If KYB required manual review, only show UBO after MVR is complete
-    if (flowParams.kybRequiresManualReview && !flowParams.kybMvrComplete) {
-      return false;
-    }
-    
-    return true;
+    // Show UBO task when KYB is complete (either kybComplete or kybRequirementComplete) and UBO is not complete
+    return (flowParams.kybComplete || flowParams.kybRequirementComplete) && !flowParams.uboRequirementComplete;
+  };
+
+  const markKYBRequirementComplete = () => {
+    setFlowParams(prev => ({
+      ...prev,
+      kybRequirementComplete: true
+    }));
+  };
+
+  const markUBORequirementComplete = () => {
+    setFlowParams(prev => ({
+      ...prev,
+      uboRequirementComplete: true
+    }));
+  };
+
+  const showToast = (message: string) => {
+    setToast(message);
+    // Auto-clear toast after 5 seconds
+    setTimeout(() => setToast(null), 5000);
+  };
+
+  const clearToast = () => {
+    setToast(null);
   };
 
   const resetState = () => {
@@ -117,6 +154,7 @@ export const UBOProvider: React.FC<UBOProviderProps> = ({ children, initialOwner
     setNewOwners([]);
     setDirectors(initialDirectors);
     setVerificationMethod(null);
+    setToast(null);
   };
 
   const value = {
@@ -126,6 +164,7 @@ export const UBOProvider: React.FC<UBOProviderProps> = ({ children, initialOwner
     directors,
     flowParams,
     verificationMethod,
+    toast,
     setActiveOwners,
     setRemovedOwners,
     setNewOwners,
@@ -139,7 +178,13 @@ export const UBOProvider: React.FC<UBOProviderProps> = ({ children, initialOwner
     shouldShowDirectors,
     isDirectorsFlow,
     shouldShowKYB,
-    shouldShowUBO
+    shouldShowUBO,
+    markKYBRequirementComplete,
+    markUBORequirementComplete,
+    showToast,
+    clearToast,
+    sandboxMode,
+    setSandboxMode
   };
 
   return <UBOContext.Provider value={value}>{children}</UBOContext.Provider>;

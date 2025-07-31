@@ -1,7 +1,7 @@
 import React from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
-import { useUBO } from '../contexts/UBOContext';
-import Modal from './Modal';
+import { useUBO } from '../../../contexts/UBOContext';
+import Modal from '../../ui/Modal';
 
 const VerifyOwnership: React.FC = () => {
   const navigate = useNavigate();
@@ -38,8 +38,8 @@ const VerifyOwnership: React.FC = () => {
       </h1>
       <p className="page-description">
         {isDirectorsFlow 
-          ? "Stripe needs to identify the directors and officers who control your organization to meet regulatory requirements and protect against financial crimes. To do this we'll need your directors and officers (D&Os) "
-          : "Stripe needs to identify who controls your business to meet regulatory requirements and protect against financial crimes. To do this we'll need your beneficial owners (UBOs) "
+          ? "Stripe needs to identify the directors and executives who control your organization to meet regulatory requirements and protect against financial crimes. To do this we'll need your directors and executives "
+          : "Stripe needs to identify the beneficial owners of your business to meet regulatory requirements and protect against financial crimes. "
         }
         <a href="#" className="inline-link">View support article</a>
       </p>
@@ -58,7 +58,7 @@ const VerifyOwnership: React.FC = () => {
             color: '#1e293b',
             marginBottom: '4px'
           }}>
-            {isDirectorsFlow ? "What are D&Os?" : "What is a UBO?"}
+            {isDirectorsFlow ? "What are directors and executives?" : "What is a beneficial owner?"}
           </div>
           <p style={{ 
             margin: '0', 
@@ -67,8 +67,8 @@ const VerifyOwnership: React.FC = () => {
             lineHeight: '1.4'
           }}>
             {isDirectorsFlow 
-              ? "Directors and Officers are senior individuals who significantly influence your organization and corporate governance."
-              : "Ultimate Beneficial Owners are individuals with 25%+ ownership or control of a business, directly or indirectly."
+              ? "Directors and executives are senior individuals who significantly influence your organization and corporate governance."
+              : "Beneficial owners are individuals with 25%+ ownership or control of a business, directly or indirectly."
             }
           </p>
         </div>

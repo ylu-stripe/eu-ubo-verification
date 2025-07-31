@@ -1,37 +1,57 @@
 import React from 'react';
-import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import { Routes, Route, Navigate } from 'react-router-dom';
 import { UBOProvider } from './contexts/UBOContext';
 import { mockCompanyData } from './data/mockData';
-import FlowControlPanel from './components/FlowControlPanel';
+import FlowControlPanel from './components/admin/FlowControlPanel';
+import PageSpecificModifiers from './components/admin/PageSpecificModifiers';
 import ASHEntry from './components/ASHEntry';
-import EditPage from './components/EditPage';
-import ConfirmPage from './components/ConfirmPage';
-import ConfirmStructure from './components/ConfirmStructure';
-import VerifyOwnership from './components/VerifyOwnership';
-import NoUBOsTransition from './components/NoUBOsTransition';
-import NoUBOsFound from './components/NoUBOsFound';
-import CompanyInformation from './components/CompanyInformation';
-import OrgTreeBuilder from './components/OrgTreeBuilder';
-import VerificationMethod from './components/VerificationMethod';
-import DocumentReview from './components/DocumentReview';
-import ReviewAttestation from './components/ReviewAttestation';
-import EditBusinessStructure from './components/EditBusinessStructure';
-import SuccessPage from './components/SuccessPage';
-import DocumentReviewPage from './components/DocumentReviewPage';
-import KYBVerification from './components/KYBVerification';
-import KYBReview from './components/KYBReview';
-import KYBSuccess from './components/KYBSuccess';
+import EditPage from './components/flows/ubo/EditPage';
+import ConfirmPage from './components/flows/ubo/ConfirmPage';
+import ConfirmStructure from './components/flows/ubo/ConfirmStructure';
+import VerifyOwnership from './components/flows/verification/VerifyOwnership';
+import NoUBOsTransition from './components/flows/no-ubos/NoUBOsTransition';
+import NoUBOsFound from './components/flows/no-ubos/NoUBOsFound';
+import CompanyInformation from './components/flows/ubo/CompanyInformation';
+import OrgTreeBuilder from './components/flows/org-tree/OrgTreeBuilder';
+import VerificationMethod from './components/flows/verification/VerificationMethod';
+import DocumentReview from './components/flows/verification/DocumentReview';
+import ReviewAttestation from './components/flows/verification/ReviewAttestation';
+import EditBusinessStructure from './components/flows/ubo/EditBusinessStructure';
+import SuccessPage from './components/flows/ubo/SuccessPage';
+import DocumentReviewPage from './components/flows/verification/DocumentReviewPage';
+import KYBVerification from './components/flows/kyb/KYBVerification';
+import KYBReview from './components/flows/kyb/KYBReview';
+import KYBSuccess from './components/flows/kyb/KYBSuccess';
+import KYBDocumentUpload from './components/flows/kyb/KYBDocumentUpload';
+import ExperimentalDemo from './components/experimental/Demo';
+import { useUBO } from './contexts/UBOContext';
 import './App.css';
 
-const App: React.FC = () => {
+const AppContent: React.FC = () => {
+  const { sandboxMode } = useUBO();
+
   return (
-    <UBOProvider initialOwners={mockCompanyData.beneficialOwners} initialDirectors={mockCompanyData.directors}>
-      <div className="App">
-        <FlowControlPanel />
+    <div className={`App ${sandboxMode ? 'sandbox-active' : ''}`}>
+      {/* Sandbox Mode Indicator */}
+      {sandboxMode && (
+        <div className="sandbox-mode-banner">
+          🧪 SANDBOX MODE - Using Experimental Components
+        </div>
+      )}
+      
+      <FlowControlPanel />
+      <PageSpecificModifiers />
+      
+      {sandboxMode ? (
+        // Sandbox Mode: Show experimental components
+        <ExperimentalDemo />
+      ) : (
+        // Regular Mode: Show normal app routes
         <Routes>
           <Route path="/" element={<Navigate to="/ash" replace />} />
           <Route path="/ash" element={<ASHEntry />} />
           <Route path="/kyb-verification" element={<KYBVerification />} />
+          <Route path="/kyb-document-upload" element={<KYBDocumentUpload />} />
           <Route path="/kyb-review" element={<KYBReview />} />
           <Route path="/kyb-success" element={<KYBSuccess />} />
           <Route path="/edit-owners" element={<EditPage />} />
@@ -51,7 +71,15 @@ const App: React.FC = () => {
           <Route path="/success" element={<SuccessPage />} />
           <Route path="/document-review-status" element={<DocumentReviewPage />} />
         </Routes>
-      </div>
+      )}
+    </div>
+  );
+};
+
+const App: React.FC = () => {
+  return (
+    <UBOProvider initialOwners={mockCompanyData.beneficialOwners} initialDirectors={mockCompanyData.directors}>
+      <AppContent />
     </UBOProvider>
   );
 };

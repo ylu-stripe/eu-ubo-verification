@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useUBO } from '../contexts/UBOContext';
+import { useUBO } from '../../../contexts/UBOContext';
 
 interface ESignModalProps {
   isOpen: boolean;
@@ -14,8 +14,8 @@ const ESignModal: React.FC<ESignModalProps> = ({ isOpen, onClose, onComplete }) 
 
   const isDirectors = isDirectorsFlow();
   const currentList = isDirectors ? directors : activeOwners;
-  const listType = isDirectors ? 'Directors and Officers' : 'Beneficial Owners';
-  const documentTitle = isDirectors ? 'Corporate Structure Disclosure' : 'Ultimate Beneficial Ownership Disclosure';
+  const listType = isDirectors ? 'Directors and Executives' : 'Beneficial Owners';
+  const documentTitle = isDirectors ? 'Corporate Structure Disclosure' : 'Beneficial Ownership Disclosure';
 
   useEffect(() => {
     if (isOpen) {
@@ -53,7 +53,7 @@ const ESignModal: React.FC<ESignModalProps> = ({ isOpen, onClose, onComplete }) 
 
         <div className="esign-content">
           <p className="esign-description">
-            This document confirms your business's Ultimate Beneficial Owners (UBOs). By electronically signing this form, you will officially attest to the accuracy of your company's ownership information.{' '}
+            This document confirms your business's beneficial owners. By electronically signing this form, you will officially attest to the accuracy of your company's ownership information.{' '}
             <a href="#" className="inline-link">
               View support article
             </a>
@@ -83,14 +83,14 @@ const ESignModal: React.FC<ESignModalProps> = ({ isOpen, onClose, onComplete }) 
                     {/* UBO Table Section */}
                     <div style={{ marginBottom: '24px' }}>
                       <div style={{ fontSize: '14px', fontWeight: '600', marginBottom: '12px' }}>
-                        UBOs (individual persons)
+                        Beneficial owners (individual persons)
                       </div>
                       
                       <table style={{ width: '100%', border: '1px solid #e5e7eb', borderCollapse: 'collapse', fontSize: '12px' }}>
                         <thead>
                           <tr style={{ backgroundColor: '#f9fafb' }}>
                             <th style={{ border: '1px solid #e5e7eb', padding: '8px', textAlign: 'left', fontWeight: '600' }}>
-                              Full Name of the UBO<br/>
+                              Full Name of the beneficial owner<br/>
                               <span style={{ fontSize: '10px', fontWeight: '400' }}>(incl. Alias, if any)</span>
                             </th>
                          
@@ -117,7 +117,7 @@ const ESignModal: React.FC<ESignModalProps> = ({ isOpen, onClose, onComplete }) 
                     {/* Legal Entities Section */}
                     <div style={{ marginBottom: '24px' }}>
                       <div style={{ fontSize: '14px', fontWeight: '600', marginBottom: '12px' }}>
-                        UBOs (legal entities or holding companies)
+                        Beneficial owners (legal entities or holding companies)
                       </div>
                       
                       <table style={{ width: '100%', border: '1px solid #e5e7eb', borderCollapse: 'collapse', fontSize: '12px' }}>

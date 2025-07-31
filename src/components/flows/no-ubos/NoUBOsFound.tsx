@@ -1,7 +1,7 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useUBO } from '../contexts/UBOContext';
-import Modal from './Modal';
+import { useUBO } from '../../../contexts/UBOContext';
+import Modal from '../../ui/Modal';
 
 const NoUBOsFound: React.FC = () => {
   const navigate = useNavigate();
@@ -12,7 +12,12 @@ const NoUBOsFound: React.FC = () => {
     setFlowParams({
       ubosFound: false,
       directorsFound: false,
-      legalEntityMatch: 'trulioo_stripe'
+      legalEntityMatch: 'trulioo_stripe',
+      kybComplete: false,
+      kybRequiresManualReview: false,
+      kybMvrComplete: false,
+      kybRequirementComplete: false,
+      uboRequirementComplete: false
     });
     // Clear directors array for empty state without triggering edit detection
     resetDirectorsForFlow();
@@ -36,7 +41,7 @@ const NoUBOsFound: React.FC = () => {
 
       <h1 className="page-title">Confirm your beneficial owners</h1>
       <p className="page-description">
-        Ultimate Beneficial Owners are individuals with over 25% ownership or control of a business, directly or indirectly. Verify this list accurately represents your beneficial owners.{' '}
+        Beneficial owners are individuals with over 25% ownership or control of a business, directly or indirectly. Verify this list accurately represents your beneficial owners.{' '}
         <a href="#" className="inline-link">
           View support article
         </a>

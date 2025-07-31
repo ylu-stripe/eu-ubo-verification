@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useUBO } from '../contexts/UBOContext';
-import Modal from './Modal';
+import { useUBO } from '../../../contexts/UBOContext';
+import Modal from '../../ui/Modal';
 import ESignModal from './ESignModal';
 
 const ReviewAttestation: React.FC = () => {
@@ -87,14 +87,14 @@ const ReviewAttestation: React.FC = () => {
                 </div>
                 
                 <div className="doc-content">
-                  <div className="doc-section-title">Ultimate Beneficial Owner (UBO) Certified Attestation</div>
+                  <div className="doc-section-title">Beneficial Owner Certified Attestation</div>
                   
                   <div className="doc-text">
                     I/We act on behalf of Stripe user [Legal name ____________] ("Business") with Business Registration Number ("BRN") or Business Address [___________________].
                   </div>
                   
                   <div className="doc-text">
-                    I hereby declare that I have listed below all UBOs of the Business, which includes: (a) all natural persons owning more than 25% shares/voting rights of the Business, and/or (b) all legal entities or holding companies owning more than 25% shares/voting rights of the Business, <span className="highlight-text">and the UBOs of any such legal entities</span>.
+                                          I hereby declare that I have listed below all beneficial owners of the Business, which includes: (a) all natural persons owning more than 25% shares/voting rights of the Business, and/or (b) all legal entities or holding companies owning more than 25% shares/voting rights of the Business, <span className="highlight-text">and the beneficial owners of any such legal entities</span>.
                   </div>
                   
                   <div className="doc-text">

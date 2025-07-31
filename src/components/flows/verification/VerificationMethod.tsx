@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useUBO } from '../contexts/UBOContext';
-import Modal from './Modal';
+import { useUBO } from '../../../contexts/UBOContext';
+import Modal from '../../ui/Modal';
 import ESignModal from './ESignModal';
 
 const VerificationMethod: React.FC = () => {
@@ -13,7 +13,7 @@ const VerificationMethod: React.FC = () => {
   const isDirectors = isDirectorsFlow();
   const currentList = isDirectors ? directors : activeOwners;
   const listType = isDirectors ? 'directors' : 'beneficial owners';
-  const listTypeTitle = isDirectors ? 'directors and officers' : 'beneficial owners';
+  const listTypeTitle = isDirectors ? 'directors and executives' : 'beneficial owners';
 
   const handleBack = () => {
     if (isDirectors) {
@@ -66,9 +66,7 @@ const VerificationMethod: React.FC = () => {
           <div className="verification-owners-section">
             <div className="verification-owners-header">
               <h3 className="section-title">{listType.charAt(0).toUpperCase() + listType.slice(1)} ({currentList.length})</h3>
-              <button onClick={handleEdit} className="btn-edit">
-                ✏️ Edit
-              </button>
+          
             </div>
 
             <div className="verification-owners-list">
@@ -100,7 +98,7 @@ const VerificationMethod: React.FC = () => {
                 </div>
                 <div className="method-info">
                   <div className="method-title">
-                    Electronic signature <span className="method-badge">Recommended</span>
+                  Digitally sign an ownership document <span className="method-badge">Recommended</span>
                   </div>
                 </div>
               </div>
@@ -123,13 +121,13 @@ const VerificationMethod: React.FC = () => {
                 </div>
                 <div className="method-info">
                   <div className="method-title">
-                    Upload supporting documentation
+                    Manually upload supporting documents
                   </div>
                 </div>
               </div>
               <div className="method-preview">
                 <div style={{ fontSize: '12px', color: '#6b7280', lineHeight: '1.4', marginTop: '8px' }}>
-                  Upload official documents like articles of incorporation, operating agreements, and identity verification for {isDirectors ? 'directors and officers' : 'beneficial owners'}. Our team will review within 1-2 business days.
+                  Upload official documents like articles of incorporation, operating agreements, and identity verification for {isDirectors ? 'directors and executives' : 'beneficial owners'}. Our team will review within 1-2 business days.
                 </div>
               </div>
             </div>

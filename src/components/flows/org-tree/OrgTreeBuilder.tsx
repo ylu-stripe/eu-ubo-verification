@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useUBO } from '../contexts/UBOContext';
-import Modal from './Modal';
+import { useUBO } from '../../../contexts/UBOContext';
+import Modal from '../../ui/Modal';
 
 const OrgTreeBuilder: React.FC = () => {
   const navigate = useNavigate();
@@ -19,7 +19,12 @@ const OrgTreeBuilder: React.FC = () => {
       setFlowParams({
         ubosFound: true,
         directorsFound: false,
-        legalEntityMatch: 'trulioo_stripe'
+        legalEntityMatch: 'trulioo_stripe',
+        kybComplete: false,
+        kybRequiresManualReview: false,
+        kybMvrComplete: false,
+        kybRequirementComplete: false,
+        uboRequirementComplete: false
       });
       // Set some mock UBOs from org tree analysis
       setActiveOwners([
@@ -42,7 +47,12 @@ const OrgTreeBuilder: React.FC = () => {
       setFlowParams({
         ubosFound: false,
         directorsFound: true,
-        legalEntityMatch: 'trulioo_stripe'
+        legalEntityMatch: 'trulioo_stripe',
+        kybComplete: false,
+        kybRequiresManualReview: false,
+        kybMvrComplete: false,
+        kybRequirementComplete: false,
+        uboRequirementComplete: false
       });
       // Set some mock directors from org tree analysis
       setDirectors([

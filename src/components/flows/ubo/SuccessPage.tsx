@@ -1,7 +1,7 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useUBO } from '../contexts/UBOContext';
-import Modal from './Modal';
+import { useUBO } from '../../../contexts/UBOContext';
+import Modal from '../../ui/Modal';
 
 const SuccessPage: React.FC = () => {
   const navigate = useNavigate();
@@ -76,7 +76,7 @@ const SuccessPage: React.FC = () => {
     <Modal title={isDirectors ? "Activate payments" : "Verify ownership"}>
       <div className="success-page-left">
         <h1 className="success-title-left">
-          {userMadeChanges ? 'Verification complete!' : 'Information confirmed!'}
+          {userMadeChanges ? 'Thank you for verifying your information' : 'Thank you for verifying your information'}
         </h1>
 
         {/* Progress Stepper */}
@@ -95,8 +95,8 @@ const SuccessPage: React.FC = () => {
           <h2 className="success-info-title">You're all done</h2>
           <p className="success-info-description">
             {userMadeChanges 
-              ? `Thanks for completing the electronic attestation. Your ${isDirectors ? 'directors' : 'beneficial ownership'} information has been verified and your account is ready for payments.`
-              : `Everything matches our records. Your ${isDirectors ? 'directors' : 'beneficial ownership'} information is confirmed and your account is ready for payments.`
+              ? `There is no further action required from you.`
+              : `There is no further action required from you.`
             }
           </p>
         </div>

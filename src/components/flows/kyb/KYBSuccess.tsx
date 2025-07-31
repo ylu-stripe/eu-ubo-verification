@@ -1,17 +1,19 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useUBO } from '../contexts/UBOContext';
-import Modal from './Modal';
+import { useUBO } from '../../../contexts/UBOContext';
+import Modal from '../../ui/Modal';
 
 const KYBSuccess: React.FC = () => {
   const navigate = useNavigate();
-  const { shouldShowUBO } = useUBO();
+  const { shouldShowUBO, markKYBRequirementComplete } = useUBO();
 
   const handleContinue = () => {
+    markKYBRequirementComplete();
     navigate('/ash?completed=true');
   };
 
   const handleContinueToUBO = () => {
+    markKYBRequirementComplete();
     navigate('/verify-ownership?entry=kyb');
   };
 

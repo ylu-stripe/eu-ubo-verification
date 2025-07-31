@@ -1,29 +1,50 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { mockCompanyData, BeneficialOwner } from '../data/mockData';
-import { useUBO } from '../contexts/UBOContext';
-import Modal from './Modal';
+import React, { useState, useEffect } from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
+import { mockCompanyData, BeneficialOwner } from '../../../data/mockData';
+import { useUBO } from '../../../contexts/UBOContext';
+import Modal from '../../ui/Modal';
 
 const EditPage: React.FC = () => {
   const navigate = useNavigate();
-     const { 
-     activeOwners,
-     directors,
-     setActiveOwners, 
-     setDirectors,
-     isDirectorsFlow,
-     setFlowParams
-   } = useUBO();
+  const location = useLocation();
+  const { 
+    activeOwners,
+    directors,
+    removedOwners,
+    setActiveOwners, 
+    setDirectors,
+    setRemovedOwners,
+    isDirectorsFlow,
+    setFlowParams,
+    flowParams
+  } = useUBO();
   
-  const isDirectors = isDirectorsFlow();
+  // Determine if this is directors mode based on URL route, not just flow parameters
+  const isDirectors = location.pathname === '/edit-directors' || isDirectorsFlow();
   const currentList = isDirectors ? directors : activeOwners;
   const setCurrentList = isDirectors ? setDirectors : setActiveOwners;
   const originalList = isDirectors ? mockCompanyData.directors : mockCompanyData.beneficialOwners;
   
   // Local state for managing items
-  const [activeItems, setActiveItems] = useState<BeneficialOwner[]>(currentList);
-  const [removedItems, setRemovedItems] = useState<BeneficialOwner[]>([]);
+  // For directors mode: if directorsFound is false, start with empty list
+  const initialActiveItems = isDirectors && !flowParams.directorsFound ? [] : currentList;
+  const [activeItems, setActiveItems] = useState<BeneficialOwner[]>(initialActiveItems);
+  const [removedItems, setRemovedItems] = useState<BeneficialOwner[]>(isDirectors ? [] : removedOwners);
   const [newItems, setNewItems] = useState<BeneficialOwner[]>([]);
+
+  // Sync state when switching between flows
+  useEffect(() => {
+    if (!isDirectors) {
+      // When switching to UBO mode, load the global removed owners
+      setRemovedItems(removedOwners);
+      setActiveItems(activeOwners);
+    } else {
+      // When in directors mode, clear removed items (directors don't use global removed state)
+      setRemovedItems([]);
+      const initialDirectorItems = !flowParams.directorsFound ? [] : directors;
+      setActiveItems(initialDirectorItems);
+    }
+  }, [isDirectors, flowParams.directorsFound]);
   
      // Animation states
    const [removingItems, setRemovingItems] = useState<Set<string>>(new Set());
@@ -34,7 +55,6 @@ const EditPage: React.FC = () => {
   const [newItemForm, setNewItemForm] = useState({
     firstName: '',
     lastName: '',
-    role: '',
     dateOfBirth: '',
     address: '',
     city: '',
@@ -42,39 +62,51 @@ const EditPage: React.FC = () => {
     postalCode: ''
   });
 
-  const handleRemoveItem = (itemId: string) => {
+    const handleRemoveItem = (itemId: string) => {
     const itemToRemove = activeItems.find(item => item.id === itemId);
     if (itemToRemove) {
-             // Start remove animation
-       setRemovingItems(prev => new Set(prev).add(itemId));
-       
-       // After animation, actually remove the item
-       setTimeout(() => {
-         const newActiveItems = activeItems.filter(item => item.id !== itemId);
-         setActiveItems(newActiveItems);
-         setRemovingItems(prev => {
-           const newSet = new Set(prev);
-           newSet.delete(itemId);
-           return newSet;
-         });
-         
-         // If it's an original item, add to removed list with entering animation
-         if (originalList.find(item => item.id === itemId)) {
-           setRemovedItems([...removedItems, itemToRemove]);
-           setEnteringRemovedItems(prev => new Set(prev).add(itemId));
-           
-           // Remove entering animation after it completes
-           setTimeout(() => {
-             setEnteringRemovedItems(prev => {
-               const newSet = new Set(prev);
-               newSet.delete(itemId);
-               return newSet;
-             });
-           }, 400);
-         }
-         
-
-       }, 400);
+      // Start remove animation
+      setRemovingItems(prev => new Set(prev).add(itemId));
+      
+      // After animation, actually remove the item
+      setTimeout(() => {
+        // Use functional updates to avoid stale closure issues
+        setActiveItems(currentActiveItems => {
+          const newActiveItems = currentActiveItems.filter(item => item.id !== itemId);
+          // Update global state immediately for UBO flow
+          if (!isDirectors) {
+            setActiveOwners(newActiveItems);
+          }
+          return newActiveItems;
+        });
+        setRemovingItems(prev => {
+          const newSet = new Set(prev);
+          newSet.delete(itemId);
+          return newSet;
+        });
+        
+        // If it's an original item, add to removed list with entering animation
+        if (originalList.find(item => item.id === itemId)) {
+          setRemovedItems(currentRemovedItems => {
+            const updatedRemovedItems = [...currentRemovedItems, itemToRemove];
+            // Only sync with global state for UBO flow
+            if (!isDirectors) {
+              setRemovedOwners(updatedRemovedItems);
+            }
+            return updatedRemovedItems;
+          });
+          setEnteringRemovedItems(prev => new Set(prev).add(itemId));
+          
+          // Remove entering animation after it completes
+          setTimeout(() => {
+            setEnteringRemovedItems(prev => {
+              const newSet = new Set(prev);
+              newSet.delete(itemId);
+              return newSet;
+            });
+          }, 400);
+        }
+      }, 400);
     }
   };
 
@@ -84,8 +116,23 @@ const EditPage: React.FC = () => {
     
     // After animation, actually move the item
     setTimeout(() => {
-      setActiveItems([...activeItems, item]);
-      setRemovedItems(removedItems.filter(i => i.id !== item.id));
+      // Use functional updates to avoid stale closure issues
+      setActiveItems(currentActiveItems => {
+        const newActiveItems = [...currentActiveItems, item];
+        // Update global state immediately for UBO flow
+        if (!isDirectors) {
+          setActiveOwners(newActiveItems);
+        }
+        return newActiveItems;
+      });
+      setRemovedItems(currentRemovedItems => {
+        const updatedRemovedItems = currentRemovedItems.filter(i => i.id !== item.id);
+        // Only sync with global state for UBO flow
+        if (!isDirectors) {
+          setRemovedOwners(updatedRemovedItems);
+        }
+        return updatedRemovedItems;
+      });
       setUndoingItems(prev => {
         const newSet = new Set(prev);
         newSet.delete(item.id);
@@ -101,7 +148,7 @@ const EditPage: React.FC = () => {
         name: `${newItemForm.firstName} ${newItemForm.lastName}`,
         percentage: 0,
         ownershipType: 'direct',
-        role: newItemForm.role || (isDirectors ? 'Director' : undefined)
+        role: isDirectors ? undefined : undefined
       };
       
       setActiveItems([...activeItems, newItem]);
@@ -109,7 +156,6 @@ const EditPage: React.FC = () => {
       setNewItemForm({
         firstName: '',
         lastName: '',
-        role: '',
         dateOfBirth: '',
         address: '',
         city: '',
@@ -120,18 +166,23 @@ const EditPage: React.FC = () => {
     }
   };
 
-     const handleContinue = () => {
-     // Update the global state
-     setCurrentList(activeItems);
-     
-     // Special case: if this is UBOs and user has no UBOs, go to transition page
-     if (!isDirectors && activeItems.length === 0) {
-       // Update the global UBO state
-       setActiveOwners([]);
-       // Navigate to transition page that explains directors collection
-       navigate('/no-ubos-transition');
-       return;
-     }
+       const handleContinue = () => {
+    // Update the global state
+    setCurrentList(activeItems);
+    // Only sync removed owners for UBO flow, not directors
+    if (!isDirectors) {
+      setRemovedOwners(removedItems);
+    }
+    
+    // Special case: if this is UBOs and user has no UBOs, go to transition page
+    if (!isDirectors && activeItems.length === 0) {
+      // Update the global UBO state
+      setActiveOwners([]);
+      setRemovedOwners(removedItems);
+      // Navigate to transition page that explains directors collection
+      navigate('/no-ubos-transition');
+      return;
+    }
      
      // Check if there are changes
      const hasRemovedItems = originalList.some(original => 
@@ -157,15 +208,15 @@ const EditPage: React.FC = () => {
     }
   };
 
-     const handleAddBeneficialOwners = () => {
-     // Switch flow to beneficial owners and navigate to that flow
-     setFlowParams({
-       ubosFound: true,
-       directorsFound: false,
-       legalEntityMatch: 'trulioo_stripe'
-     });
-     navigate('/edit-owners');
-   };
+       const handleAddBeneficialOwners = () => {
+    // Switch flow to beneficial owners and navigate to that flow
+    setFlowParams({
+      ...flowParams,
+      ubosFound: true,
+      directorsFound: false
+    });
+    navigate('/edit-owners');
+  };
 
   if (showAddForm) {
     return (
@@ -204,18 +255,7 @@ const EditPage: React.FC = () => {
             </div>
           </div>
 
-          {isDirectors && (
-            <div className="form-group">
-              <label className="form-label">Role</label>
-              <input
-                type="text"
-                className="form-input"
-                value={newItemForm.role}
-                onChange={(e) => setNewItemForm(prev => ({ ...prev, role: e.target.value }))}
-                placeholder="e.g. CEO, Director, CFO"
-              />
-            </div>
-          )}
+
 
           <div className="form-group">
             <label className="form-label">Date of birth</label>
@@ -288,33 +328,25 @@ const EditPage: React.FC = () => {
 
       <h1 className="page-title">
         {isDirectors && activeItems.length === 0 
-          ? 'Confirm your directors and officers'
-          : `Edit your ${isDirectors ? 'directors and officers' : 'beneficial owners'}`
+          ? 'Confirm your directors and executives'
+          : `Edit your ${isDirectors ? 'directors and executives' : 'beneficial owners'}`
         }
       </h1>
       <p className="page-description">
         {isDirectors && activeItems.length === 0
-          ? 'D&Os are senior directors or officers who significantly influence your organization. Add all directors and officers to continue with verification.'
+          ? 'Directors and executives are senior individuals who significantly influence your organization. Add all directors and executives to continue with verification.'
           : `Update this list to include all ${isDirectors 
-              ? 'directors and officers who significantly influence your organization'
+              ? 'directors and executives who significantly influence your organization'
               : 'individuals with 25%+ ownership or control of a business, directly or indirectly'
             }.`
         }
       </p>
 
-      {/* Validation message for directors - moved to top */}
-      {isDirectors && activeItems.length === 0 && (
-        <div className="validation-message">
-          <div className="validation-icon">⚠️</div>
-          <div className="validation-text">
-            <strong>At least one director is required.</strong> You must add a director or officer to continue with verification.
-          </div>
-        </div>
-      )}
+
 
       <div className="mb-32">
         <h3 className="section-title">
-          {isDirectors ? 'Directors and officers' : 'Beneficial owners'} ({activeItems.length})
+          {isDirectors ? 'Directors and executives' : 'Beneficial owners'} ({activeItems.length})
         </h3>
 
         {activeItems.length > 0 ? (
@@ -326,7 +358,7 @@ const EditPage: React.FC = () => {
               >
                 <div className="owner-info">
                   <div className="owner-name">{item.name}</div>
-                  {item.role && (
+                  {!isDirectors && item.role && (
                     <div className="owner-role">{item.role}</div>
                   )}
                 </div>
@@ -356,12 +388,28 @@ const EditPage: React.FC = () => {
           <div className="empty-state-dashed">
             <div className="empty-state-dashed-inner">
               <div className="empty-state-dashed-text">
-                There are no {isDirectors ? 'Directors and officers' : 'beneficial owners'}. Add {isDirectors 
-                  ? 'directors or officers who significantly influence your organization'
-                  : 'individuals with 25%+ ownership or control of your business'
+                There are no {isDirectors ? 'directors and executives' : 'beneficial owners'}. {isDirectors 
+                  ? 'Add directors or executives who significantly influence your organization'
+                  : 'Confirm this is correct or add individuals with more than 25% ownership of your business'
                 }.
               </div>
             </div>
+            
+            {isDirectors && (
+              <div style={{ 
+                color: '#dc2626', 
+                marginTop: '16px', 
+                marginBottom: '16px',
+                fontSize: '12px', 
+                textAlign: 'left',
+                display: 'flex',
+                alignItems: 'flex-start',
+                gap: '6px'
+              }}>
+                <span style={{ fontSize: '14px', marginTop: '-1px' }}>⚠️</span>
+                <span><strong>You must add at least one director.</strong> If you don't have any directors, you may need to <span style={{ textDecoration: 'underline' }}>update your business structure.</span></span>
+              </div>
+            )}
             
             <button
               onClick={() => setShowAddForm(true)}
@@ -406,8 +454,8 @@ const EditPage: React.FC = () => {
       {isDirectors && (
         <div>
           <p className="disclaimer-text">
-            [To ensure compliance with AML laws, by confirming you are attesting that directors listed are accurate and your business has no{' '}
-            <span style={{ textDecoration: 'underline' }}>beneficial owners</span>].
+            To ensure compliance with AML laws, by confirming you are attesting that directors listed are accurate and your business has no{' '}
+            <span style={{ textDecoration: 'underline' }}>beneficial owners</span>.
           </p>
           
           <p className="disclaimer-link">
@@ -427,10 +475,10 @@ const EditPage: React.FC = () => {
         disabled={isDirectors && activeItems.length === 0}
         className="btn btn-primary btn-full-width btn-standalone"
       >
-         {activeItems.length > 0 
-           ? (removedItems.length > 0 ? 'Save' : 'Continue') 
-           : (isDirectors ? 'Add a director to continue' : 'Continue with no UBOs')
-         }
+                   {activeItems.length > 0 
+            ? 'Continue'
+            : (isDirectors ? 'Add a director to continue' : 'Continue with no UBOs')
+          }
       </button>
     </Modal>
   );

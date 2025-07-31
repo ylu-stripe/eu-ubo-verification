@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useUBO } from '../contexts/UBOContext';
-import Modal from './Modal';
+import { useUBO } from '../../../contexts/UBOContext';
+import Modal from '../../ui/Modal';
 
 const CompanyInformation: React.FC = () => {
   const navigate = useNavigate();
-  const { setFlowParams } = useUBO();
+  const { setFlowParams, setActiveOwners } = useUBO();
   const [selectedComplexity, setSelectedComplexity] = useState<'simple' | 'complex' | null>(null);
 
   const handleContinue = () => {
@@ -14,8 +14,15 @@ const CompanyInformation: React.FC = () => {
       setFlowParams({
         ubosFound: true,
         directorsFound: false,
-        legalEntityMatch: 'trulioo_stripe'
+        legalEntityMatch: 'trulioo_stripe',
+        kybComplete: false,
+        kybRequiresManualReview: false,
+        kybMvrComplete: false,
+        kybRequirementComplete: false,
+        uboRequirementComplete: false
       });
+      // Clear existing owners so user starts with empty list
+      setActiveOwners([]);
       navigate('/edit-owners');
     } else if (selectedComplexity === 'complex') {
       // Go to org tree builder (placeholder)

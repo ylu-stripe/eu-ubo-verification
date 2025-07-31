@@ -1,8 +1,8 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useUBO } from '../contexts/UBOContext';
-import { mockCompanyData } from '../data/mockData';
-import Modal from './Modal';
+import { useUBO } from '../../../contexts/UBOContext';
+import { mockCompanyData } from '../../../data/mockData';
+import Modal from '../../ui/Modal';
 
 const ConfirmStructure: React.FC = () => {
   const navigate = useNavigate();
@@ -39,19 +39,19 @@ const ConfirmStructure: React.FC = () => {
 
       <h1 className="page-title">Confirm your business structure</h1>
       <p className="page-description">
-        UBO verification is applicable for Company, Corporation, LLC, and Partnership legal entity structures. Additional info goes here
+      Take a moment to confirm your business type, as this affects your verification process
       </p>
 
-      <div className="mb-32">
+      <div className="mb-24">
         <h3 className="section-title">Review your business structure</h3>
         <p className="page-description">
-          Make sure this information matches your [documents].
+          Make sure this information is correct.
         </p>
 
         {/* Data Mismatch Warning Banner */}
         {showDataMismatchWarning && (
-          <div className="data-mismatch-banner">
-            ⚠ We think this could be wrong. Data source says your type is [LLC] - double check that this is right
+          <div className="data-mismatch-banner mt-1">
+            ⚠ According to [source], your business type is [type]. Please verify your selection.
           </div>
         )}
         

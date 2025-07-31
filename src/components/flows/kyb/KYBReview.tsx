@@ -1,34 +1,29 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useUBO } from '../contexts/UBOContext';
-import Modal from './Modal';
+import { useUBO } from '../../../contexts/UBOContext';
+import Modal from '../../ui/Modal';
 
-const DocumentReviewPage: React.FC = () => {
+const KYBReview: React.FC = () => {
   const navigate = useNavigate();
-  const { isDirectorsFlow } = useUBO();
-  
-  const isDirectors = isDirectorsFlow();
+  const { shouldShowUBO } = useUBO();
 
   const handleBackToDashboard = () => {
-    navigate('/ash');
+    navigate('/ash?manualReview=kyb');
   };
 
   return (
-    <Modal title={isDirectors ? "Activate payments" : "Verify ownership"}>
+    <Modal title="Verify business information">
       <div className="document-review-page">
         <div className="review-icon">
-          📋
+          🏢
         </div>
         
-        <h1 className="review-title">We're reviewing your documents</h1>
+        <h1 className="review-title">We're reviewing your business information</h1>
         <h2 className="review-subtitle">
-          {isDirectors 
-            ? "Your directors documentation is being processed" 
-            : "Your beneficial ownership documentation is being processed"
-          }
+          Your business verification is being processed
         </h2>
         <p className="review-description">
-          Our team will review your submitted documents within 1-2 business days. 
+          Our team will review your submitted business information within 1-2 business days. 
           We'll send you an email once the review is complete.
         </p>
 
@@ -36,7 +31,7 @@ const DocumentReviewPage: React.FC = () => {
           <div className="timeline-item completed">
             <div className="timeline-icon">✅</div>
             <div className="timeline-content">
-              <div className="timeline-title">Documents uploaded</div>
+              <div className="timeline-title">Information submitted</div>
               <div className="timeline-time">Just now</div>
             </div>
           </div>
@@ -67,14 +62,6 @@ const DocumentReviewPage: React.FC = () => {
             <span className="detail-label">Review time:</span>
             <span className="detail-value">1-2 business days</span>
           </div>
-          <div className="detail-item">
-            <span className="detail-label">Contact:</span>
-            <span className="detail-value">
-              <a href="mailto:support@example.com" className="inline-link">
-                support@example.com
-              </a>
-            </span>
-          </div>
         </div>
 
         <button
@@ -88,4 +75,4 @@ const DocumentReviewPage: React.FC = () => {
   );
 };
 
-export default DocumentReviewPage; 
+export default KYBReview; 
