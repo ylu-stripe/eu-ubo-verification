@@ -9,9 +9,7 @@ const ASHEntry: React.FC = () => {
     resetState, 
     verificationMethod, 
     flowParams,
-    shouldShowKYB,
     shouldShowUBO,
-    markKYBRequirementComplete,
     markUBORequirementComplete,
     showToast,
     toast,
@@ -30,17 +28,6 @@ const ASHEntry: React.FC = () => {
       setSearchParams({});
     }
 
-    // Handle manual review completion
-    if (manualReviewParam === 'kyb' && !flowParams.kybRequirementComplete) {
-      markKYBRequirementComplete();
-      // Wait 1 second after submission, then show toast
-      setTimeout(() => {
-        showToast('Testing context: Manual review complete - UBO task is now available');
-      }, 1000);
-      // Clean up the URL parameter
-      setSearchParams({});
-    }
-
     if (manualReviewParam === 'ubo' && !flowParams.uboRequirementComplete) {
       markUBORequirementComplete();
       // Wait 1 second after submission, then show toast
@@ -50,14 +37,10 @@ const ASHEntry: React.FC = () => {
       // Clean up the URL parameter
       setSearchParams({});
     }
-  }, [searchParams, verificationMethod, flowParams.kybRequirementComplete, flowParams.uboRequirementComplete, resetState, setSearchParams, markKYBRequirementComplete, markUBORequirementComplete, showToast]);
+  }, [searchParams, verificationMethod, flowParams.uboRequirementComplete, resetState, setSearchParams, markUBORequirementComplete, showToast]);
 
   const handleTaskClick = (taskId: string) => {
-    if (taskId === 'task_kyb') {
-      // DISABLED: KYB verification turned off for now
-      // navigate('/kyb-verification');
-      return;
-    } else if (taskId === 'task_ubo') {
+    if (taskId === 'task_ubo') {
       navigate('/verify-ownership?entry=ash');
     }
     // Other tasks would be handled here
@@ -67,19 +50,7 @@ const ASHEntry: React.FC = () => {
   const getDynamicTasks = () => {
     const tasks = [];
     
-    // Show KYB task when neither kybComplete nor kybRequirementComplete is true
-    // DISABLED: KYB verification turned off for now
-    // if (!flowParams.kybComplete && !flowParams.kybRequirementComplete) {
-    //   tasks.push({
-    //     id: 'task_kyb',
-    //     title: 'Provide a tax ID for Cactus Practice',
-    //     date: 'Due June 16, 2025',
-    //     impact: 'Impacts payouts',
-    //     icon: '📅',
-    //     clickable: true,
-    //     status: undefined
-    //   });
-    // }
+
     
     if (shouldShowUBO()) {
       tasks.push({

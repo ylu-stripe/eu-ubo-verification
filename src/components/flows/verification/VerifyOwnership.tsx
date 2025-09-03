@@ -2,6 +2,7 @@ import React from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useUBO } from '../../../contexts/UBOContext';
 import Modal from '../../ui/Modal';
+import PageHeader from '../../ui/PageHeader';
 
 const VerifyOwnership: React.FC = () => {
   const navigate = useNavigate();
@@ -33,16 +34,18 @@ const VerifyOwnership: React.FC = () => {
 
   return (
     <Modal title={isDirectorsFlow ? "Activate payments" : "Verify ownership"} onClose={handleClose}>
-      <h1 className="page-title">
-        {isDirectorsFlow ? "Verify your corporate structure" : "Verify your business ownership"}
-      </h1>
-      <p className="page-description">
-        {isDirectorsFlow 
-          ? "Stripe needs to identify the directors and executives who control your organization to meet regulatory requirements and protect against financial crimes. To do this we'll need your directors and executives "
-          : "Stripe needs to identify the beneficial owners of your business to meet regulatory requirements and protect against financial crimes. "
+      <PageHeader
+        title={isDirectorsFlow ? "Verify your corporate structure" : "Verify your business ownership"}
+        description={
+          <>
+            {isDirectorsFlow 
+              ? "Stripe needs to identify the directors and executives who control your organization to meet regulatory requirements and protect against financial crimes. To do this we'll need your directors and executives "
+              : "Stripe needs to identify the beneficial owners of your business to meet regulatory requirements and protect against financial crimes. "
+            }
+            <a href="#" className="inline-link">View support article</a>
+          </>
         }
-        <a href="#" className="inline-link">View support article</a>
-      </p>
+      />
 
       <div style={{ marginBottom: '24px' }}>
         <div style={{

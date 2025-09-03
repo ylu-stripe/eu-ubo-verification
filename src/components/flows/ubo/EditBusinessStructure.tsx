@@ -63,88 +63,90 @@ const EditBusinessStructure: React.FC = () => {
         ← Back
       </button>
 
-      <h1 className="page-title">Confirm your business structure</h1>
-      <p className="page-description">
-        [UBO verification is applicable for Company, Corporation, LLC, and Partnership legal entity structures. Additional info goes here]
-      </p>
+      <div className="content-section">
+        <h1 className="page-title">Confirm your business structure</h1>
+        <p className="page-description">
+          [UBO verification is applicable for Company, Corporation, LLC, and Partnership legal entity structures. Additional info goes here]
+        </p>
 
-      <div className="mb-32">
-        <div className="form-section">
-          <div className="form-section-header">
-            <label className="form-section-label">Business type</label>
-            <div className="info-icon">ℹ</div>
-          </div>
-          
-          <div className="business-options">
-            {businessTypes.map((type) => (
-              <div
-                key={type.id}
-                className={`business-option ${businessType === type.id ? 'business-option-selected' : ''}`}
-                onClick={() => setBusinessType(type.id)}
-              >
-                <div className="business-option-content">
-                  <div className="business-option-name">{type.name}</div>
-                  <div className="business-option-preview">
-                    <div className="preview-line" style={{ width: '80%' }} />
-                    <div className="preview-line" style={{ width: '60%' }} />
-                    <div className="preview-line" style={{ width: '40%' }} />
-                    <div className="preview-line" style={{ width: '70%' }} />
-                    <div className="preview-line" style={{ width: '90%' }} />
-                    <div className="preview-line" style={{ width: '50%' }} />
-                    <div className="preview-line" style={{ width: '85%' }} />
-                    <div className="preview-line" style={{ width: '65%' }} />
-                    <div className="preview-line" style={{ width: '45%' }} />
+        <div className="mb-32">
+          <div className="form-section">
+            <div className="form-section-header">
+              <label className="form-section-label">Business type</label>
+              <div className="info-icon">ℹ</div>
+            </div>
+            
+            <div className="business-options">
+              {businessTypes.map((type) => (
+                <div
+                  key={type.id}
+                  className={`business-option ${businessType === type.id ? 'business-option-selected' : ''}`}
+                  onClick={() => setBusinessType(type.id)}
+                >
+                  <div className="business-option-content">
+                    <div className="business-option-name">{type.name}</div>
+                    <div className="business-option-preview">
+                      <div className="preview-line" style={{ width: '80%' }} />
+                      <div className="preview-line" style={{ width: '60%' }} />
+                      <div className="preview-line" style={{ width: '40%' }} />
+                      <div className="preview-line" style={{ width: '70%' }} />
+                      <div className="preview-line" style={{ width: '90%' }} />
+                      <div className="preview-line" style={{ width: '50%' }} />
+                      <div className="preview-line" style={{ width: '85%' }} />
+                      <div className="preview-line" style={{ width: '65%' }} />
+                      <div className="preview-line" style={{ width: '45%' }} />
+                    </div>
                   </div>
                 </div>
-              </div>
-            ))}
+              ))}
+            </div>
           </div>
         </div>
-      </div>
 
-      <div className="mb-32">
-        <div className="form-section">
-          <div className="form-section-header">
-            <label className="form-section-label">Business structure</label>
-            <div className="info-icon">ℹ</div>
-          </div>
-          <p className="form-section-description">
-            If your company is publicly traded, refer to this{' '}
-            <a href="#" className="support-link">support article</a>{' '}
-            for onboarding instructions.
-          </p>
-          
-          <div className="business-options">
-            {businessStructures.map((structure) => (
-              <div
-                key={structure.id}
-                className={`business-option ${businessStructure === structure.id ? 'business-option-selected' : ''}`}
-                onClick={() => setBusinessStructure(structure.id)}
-              >
-                <div className="business-option-content">
-                  <div className="business-option-name">{structure.name}</div>
-                  <div className="business-option-preview">
-                    <div className="preview-line" style={{ width: '75%' }} />
-                    <div className="preview-line" style={{ width: '85%' }} />
-                    <div className="preview-line" style={{ width: '55%' }} />
-                    <div className="preview-line" style={{ width: '95%' }} />
-                    <div className="preview-line" style={{ width: '65%' }} />
-                    <div className="preview-line" style={{ width: '80%' }} />
-                    <div className="preview-line" style={{ width: '40%' }} />
+        <div className="mb-32">
+          <div className="form-section">
+            <div className="form-section-header">
+              <label className="form-section-label">Business structure</label>
+              <div className="info-icon">ℹ</div>
+            </div>
+            <p className="form-section-description">
+              If your company is publicly traded, refer to this{' '}
+              <a href="#" className="support-link">support article</a>{' '}
+              for onboarding instructions.
+            </p>
+            
+            <div className="business-options">
+              {businessStructures.map((structure) => (
+                <div
+                  key={structure.id}
+                  className={`business-option ${businessStructure === structure.id ? 'business-option-selected' : ''}`}
+                  onClick={() => setBusinessStructure(structure.id)}
+                >
+                  <div className="business-option-content">
+                    <div className="business-option-name">{structure.name}</div>
+                    <div className="business-option-preview">
+                      <div className="preview-line" style={{ width: '75%' }} />
+                      <div className="preview-line" style={{ width: '85%' }} />
+                      <div className="preview-line" style={{ width: '55%' }} />
+                      <div className="preview-line" style={{ width: '95%' }} />
+                      <div className="preview-line" style={{ width: '65%' }} />
+                      <div className="preview-line" style={{ width: '80%' }} />
+                      <div className="preview-line" style={{ width: '40%' }} />
+                    </div>
                   </div>
                 </div>
-              </div>
-            ))}
+              ))}
+            </div>
           </div>
         </div>
-      </div>
 
-      <button
-        onClick={handleSave}
-        className="btn btn-primary btn-full-width btn-standalone"
-      >
-        Save
-      </button>
+        <button
+          onClick={handleSave}
+          className="btn btn-primary btn-full-width btn-standalone"
+        >
+          Save
+        </button>
+      </div>
     </Modal>
   );
 };

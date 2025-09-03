@@ -2,6 +2,7 @@ import React from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useUBO } from '../../../contexts/UBOContext';
 import Modal from '../../ui/Modal';
+import PageHeader from '../../ui/PageHeader';
 
 const ConfirmPage: React.FC = () => {
   const navigate = useNavigate();
@@ -59,19 +60,25 @@ const ConfirmPage: React.FC = () => {
 
   if (isDirectors) {
     return (
-      <Modal title="Activate payments">
-        <button className="btn-back mb-24" onClick={handleBack}>
-          ← Back
-        </button>
+          <Modal title="Activate payments">
+      <button className="btn-back mb-24" onClick={handleBack}>
+        ← Back
+      </button>
 
-        <h1 className="page-title">Are these directors correct?</h1>
-        <p className="page-description">
-          Directors and executives are senior individuals who significantly influence your organization. Verification required for non-profits or government entities. Verify this list accurately represents your beneficial owners.{' '}
-          <a href="#" className="inline-link">
-            View support article
-          </a>
-        </p>
+      <div className="content-section">
+        <PageHeader
+          title="Are these directors correct?"
+          description={
+            <>
+              Directors and executives are senior individuals who significantly influence your organization. Verification required for non-profits or government entities. Verify this list accurately represents your beneficial owners.{' '}
+              <a href="#" className="inline-link">
+                View support article
+              </a>
+            </>
+          }
+        />
 
+        <div className="section-content">
         {/* Validation message for directors - moved to top */}
         {directors.length === 0 && (
           <div className="validation-message">
@@ -131,18 +138,20 @@ const ConfirmPage: React.FC = () => {
           </p>
         </div>
 
-        <div className="flex-column-gap">
-            <button 
-              onClick={handleContinue} 
-              disabled={directors.length === 0}
-              className="btn btn-primary btn-full-width"
-            >
-                {directors.length > 0 ? 'Continue' : 'Add a director to continue'}
-            </button>
-            <button onClick={handleEdit} className="btn btn-secondary btn-full-width">
-                No, edit directors
-            </button>
+          <div className="flex-column-gap">
+              <button 
+                onClick={handleContinue} 
+                disabled={directors.length === 0}
+                className="btn btn-primary btn-full-width"
+              >
+                  {directors.length > 0 ? 'Continue' : 'Add a director to continue'}
+              </button>
+              <button onClick={handleEdit} className="btn btn-secondary btn-full-width">
+                  No, edit directors
+              </button>
+          </div>
         </div>
+      </div>
       </Modal>
     );
   }
@@ -154,32 +163,36 @@ const ConfirmPage: React.FC = () => {
         ← Back
       </button>
 
-      <h1 className="page-title">Are these beneficial owners correct?</h1>
-      <p className="page-description">
-        Beneficial owners are individuals with over 25% ownership or control of a business, directly or indirectly. Verify this list accurately represents your beneficial owners.{' '}
-        <a href="#" className="inline-link">
-          View support article
-        </a>
-      </p>
+      <div className="content-section">
+        <PageHeader
+          title="Are these beneficial owners correct?"
+          description={
+            <>
+              Beneficial owners are individuals with over 25% ownership or control of a business, directly or indirectly. Verify this list accurately represents your beneficial owners.{' '}
+              <a href="#" className="inline-link">
+                View support article
+              </a>
+            </>
+          }
+        />
 
-      <div className="mb-32">
-        <div className="suggestions-container">
-          <h3 className="suggestions-header">Suggestions based on public records</h3>
-          {activeOwners.map((owner) => (
-            <div key={owner.id} className="owner-suggestion">
-              {owner.name}
-            </div>
-          ))}
-        </div>
-      </div>
+          <div className="suggestions-container">
+            <h3 className="suggestions-header">Suggestions based on public records</h3>
+            {activeOwners.map((owner) => (
+              <div key={owner.id} className="owner-suggestion">
+                {owner.name}
+              </div>
+            ))}
+          </div>
 
-      <div className="flex-column-gap">
-        <button onClick={handleContinue} className="btn btn-primary btn-full-width">
-          Confirm
-        </button>
-        <button onClick={handleEdit} className="btn btn-secondary btn-full-width">
-          No, edit owners
-        </button>
+          <div className="flex-column-gap">
+            <button onClick={handleContinue} className="btn btn-primary btn-full-width">
+              Confirm
+            </button>
+            <button onClick={handleEdit} className="btn btn-secondary btn-full-width">
+              No, edit owners
+            </button>
+          </div>
       </div>
     </Modal>
   );

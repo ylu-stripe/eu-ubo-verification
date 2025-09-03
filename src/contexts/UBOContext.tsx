@@ -5,11 +5,6 @@ export interface FlowParameters {
   ubosFound: boolean;
   directorsFound: boolean;
   legalEntityMatch: 'trulioo_stripe' | 'trulioo_no_response' | 'trulioo_not_stripe';
-  kybComplete: boolean;
-  kybRequiresManualReview: boolean;
-  kybMvrComplete: boolean;
-  // Add requirement completion tracking
-  kybRequirementComplete: boolean;
   uboRequirementComplete: boolean;
   // Sandbox mode matching strategy
   twoWayMatch?: boolean;
@@ -34,18 +29,13 @@ interface UBOContextType {
   resetDirectorsForFlow: () => void;
   shouldShowDirectors: () => boolean;
   isDirectorsFlow: () => boolean;
-  shouldShowKYB: () => boolean;
   shouldShowUBO: () => boolean;
   // Add requirement completion methods
-  markKYBRequirementComplete: () => void;
   markUBORequirementComplete: () => void;
   // Toast system
   toast: string | null;
   showToast: (message: string) => void;
   clearToast: () => void;
-  // Sandbox mode
-  sandboxMode: boolean;
-  setSandboxMode: (enabled: boolean) => void;
 }
 
 const UBOContext = createContext<UBOContextType | undefined>(undefined);
@@ -63,15 +53,10 @@ export const UBOProvider: React.FC<UBOProviderProps> = ({ children, initialOwner
   const [directors, setDirectors] = useState<BeneficialOwner[]>(initialDirectors);
   const [verificationMethod, setVerificationMethod] = useState<'electronic' | 'upload' | null>(null);
   const [toast, setToast] = useState<string | null>(null);
-  const [sandboxMode, setSandboxMode] = useState<boolean>(false);
   const [flowParams, setFlowParams] = useState<FlowParameters>({
     ubosFound: true,
     directorsFound: true,
     legalEntityMatch: 'trulioo_stripe',
-    kybComplete: true,
-    kybRequiresManualReview: false,
-    kybMvrComplete: false,
-    kybRequirementComplete: false,
     uboRequirementComplete: false
   });
 
@@ -114,21 +99,9 @@ export const UBOProvider: React.FC<UBOProviderProps> = ({ children, initialOwner
     return shouldShowDirectors();
   };
 
-  const shouldShowKYB = () => {
-    // Show KYB task when KYB is not complete (neither kybComplete nor kybRequirementComplete)
-    return !flowParams.kybComplete && !flowParams.kybRequirementComplete;
-  };
-
   const shouldShowUBO = () => {
-    // Show UBO task when KYB is complete (either kybComplete or kybRequirementComplete) and UBO is not complete
-    return (flowParams.kybComplete || flowParams.kybRequirementComplete) && !flowParams.uboRequirementComplete;
-  };
-
-  const markKYBRequirementComplete = () => {
-    setFlowParams(prev => ({
-      ...prev,
-      kybRequirementComplete: true
-    }));
+    // Show UBO task when UBO is not complete
+    return !flowParams.uboRequirementComplete;
   };
 
   const markUBORequirementComplete = () => {
@@ -177,14 +150,10 @@ export const UBOProvider: React.FC<UBOProviderProps> = ({ children, initialOwner
     resetDirectorsForFlow,
     shouldShowDirectors,
     isDirectorsFlow,
-    shouldShowKYB,
     shouldShowUBO,
-    markKYBRequirementComplete,
     markUBORequirementComplete,
     showToast,
-    clearToast,
-    sandboxMode,
-    setSandboxMode
+    clearToast
   };
 
   return <UBOContext.Provider value={value}>{children}</UBOContext.Provider>;

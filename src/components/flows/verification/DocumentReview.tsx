@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { useUBO } from '../../../contexts/UBOContext';
 import Modal from '../../ui/Modal';
 import ESignModal from './ESignModal';
+import PageHeader from '../../ui/PageHeader';
 
 const DocumentReview: React.FC = () => {
   const navigate = useNavigate();
@@ -37,15 +38,20 @@ const DocumentReview: React.FC = () => {
           ← Back
         </button>
 
-        <h1 className="page-title">Review and electronically sign</h1>
-        <p className="page-description">
-          This document captures your {listType}. By electronically signing this form, you will officially attest to the accuracy of your company's {isDirectors ? 'corporate structure' : 'ownership'} information.{' '}
-          <a href="#" className="inline-link">
-            View support article
-          </a>
-        </p>
+        <div className="content-section">
+          <PageHeader
+            title="Review and electronically sign"
+            description={
+              <>
+                This document captures your {listType}. By electronically signing this form, you will officially attest to the accuracy of your company's {isDirectors ? 'corporate structure' : 'ownership'} information.{' '}
+                <a href="#" className="inline-link">
+                  View support article
+                </a>
+              </>
+            }
+          />
 
-        <div className="mb-32">
+          <div className="section-content">
           <h3 className="section-title">{documentTitle}</h3>
           
           <div className="document-preview">
@@ -76,16 +82,17 @@ const DocumentReview: React.FC = () => {
           </div>
         </div>
 
-        <div className="flex-column-gap">
-          <button onClick={handleCancel} className="btn btn-secondary btn-full-width">
-            Cancel
-          </button>
-          <button
-            onClick={handleContinue}
-            className="btn btn-primary btn-full-width"
-          >
-            Review and e-sign
-          </button>
+            <div className="flex-column-gap">
+              <button onClick={handleCancel} className="btn btn-secondary btn-full-width">
+                Cancel
+              </button>
+              <button
+                onClick={handleContinue}
+                className="btn btn-primary btn-full-width"
+              >
+                Review and e-sign
+              </button>
+            </div>
         </div>
       </Modal>
 

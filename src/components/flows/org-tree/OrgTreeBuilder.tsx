@@ -16,15 +16,11 @@ const OrgTreeBuilder: React.FC = () => {
     // Use the user's selected analysis result
     if (analysisResult === 'ubos') {
       // Org tree found UBOs - go to UBOs confirmation flow
-      setFlowParams({
-        ubosFound: true,
-        directorsFound: false,
-        legalEntityMatch: 'trulioo_stripe',
-        kybComplete: false,
-        kybRequiresManualReview: false,
-        kybMvrComplete: false,
-        kybRequirementComplete: false,
-        uboRequirementComplete: false
+          setFlowParams({
+      ubosFound: true,
+      directorsFound: false,
+      legalEntityMatch: 'trulioo_stripe',
+      uboRequirementComplete: false
       });
       // Set some mock UBOs from org tree analysis
       setActiveOwners([
@@ -48,10 +44,6 @@ const OrgTreeBuilder: React.FC = () => {
         ubosFound: false,
         directorsFound: true,
         legalEntityMatch: 'trulioo_stripe',
-        kybComplete: false,
-        kybRequiresManualReview: false,
-        kybMvrComplete: false,
-        kybRequirementComplete: false,
         uboRequirementComplete: false
       });
       // Set some mock directors from org tree analysis
@@ -89,62 +81,59 @@ const OrgTreeBuilder: React.FC = () => {
         ← Back
       </button>
 
-      <h1 className="page-title">Build your ownership tree</h1>
-      <p className="page-description">
-        We'll help you map out your complex ownership structure to identify your ultimate beneficial owners.
-      </p>
+      <div className="content-section">
+        <h1 className="page-title">Build your ownership tree</h1>
+        <p className="page-description">
+          We'll help you map out your complex ownership structure to identify your ultimate beneficial owners.
+        </p>
 
-      <div className="mb-24">
-        <div className="placeholder-content">
-          <div className="placeholder-icon">🏗️</div>
-          <h3 className="placeholder-title">Org Tree Builder</h3>
-          <p className="placeholder-description">
-            This is a placeholder for the organizational tree builder flow. This tool will help you:
-          </p>
-          <ul className="placeholder-list">
-            <li>Map complex ownership structures</li>
-            <li>Identify intermediate holding companies</li>
-            <li>Calculate beneficial ownership percentages</li>
-            <li>Determine ultimate beneficial owners</li>
-          </ul>
-          
-          <div style={{ marginTop: '24px', padding: '16px', backgroundColor: '#f8fafc', borderRadius: '6px', border: '1px solid #e2e8f0' }}>
-            <div style={{ fontSize: '14px', fontWeight: '600', marginBottom: '12px', color: '#1f2937' }}>
-              Demo: Simulate Analysis Result
-            </div>
-            <p style={{ fontSize: '12px', color: '#6b7280', marginBottom: '12px' }}>
-              For demo purposes, choose what the org tree analysis should find:
+        <div className="mb-24">
+          <div className="placeholder-content">
+            <div className="placeholder-icon">🏗️</div>
+            <h3 className="placeholder-title">Org Tree Builder</h3>
+            <p className="placeholder-description">
+              This is a placeholder for the organizational tree builder flow. This tool will help you:
             </p>
-            <div style={{ display: 'flex', gap: '8px', marginBottom: '12px' }}>
-              <button 
-                onClick={handleSimulateUBOs}
-                className={`btn btn-small ${analysisResult === 'ubos' ? 'btn-primary' : 'btn-secondary'}`}
-              >
-                Find UBOs
-              </button>
-              <button 
-                onClick={handleSimulateDirectors}
-                className={`btn btn-small ${analysisResult === 'directors' ? 'btn-primary' : 'btn-secondary'}`}
-              >
-                Find Directors Only
-              </button>
-            </div>
-            {analysisResult && (
-              <div style={{ fontSize: '12px', color: '#10b981', fontWeight: '500' }}>
-                ✓ Analysis will find: {analysisResult === 'ubos' ? 'Ultimate Beneficial Owners' : 'Directors & Officers only'}
-              </div>
-            )}
+            <ul className="placeholder-list">
+              <li>Map complex ownership structures</li>
+              <li>Identify intermediate holding companies</li>
+              <li>Calculate beneficial ownership percentages</li>
+              <li>Determine ultimate beneficial owners</li>
+            </ul>
           </div>
         </div>
-      </div>
 
-      <button 
-        onClick={handleContinue} 
-        disabled={!analysisResult}
-        className="btn btn-primary btn-full-width btn-standalone"
-      >
-        {!analysisResult ? 'Select analysis result above' : 'Continue to results'}
-      </button>
+        <div className="mb-32">
+          <h3 className="section-title">Simulate analysis result</h3>
+          <p className="section-description">
+            For demo purposes, you can simulate what the org tree analysis would find:
+          </p>
+          
+          <div className="simulation-buttons">
+            <button 
+              onClick={handleSimulateUBOs}
+              className={`btn ${analysisResult === 'ubos' ? 'btn-primary' : 'btn-secondary'} btn-full-width`}
+            >
+              Simulate: Found UBOs
+            </button>
+            
+            <button 
+              onClick={handleSimulateDirectors}
+              className={`btn ${analysisResult === 'directors' ? 'btn-primary' : 'btn-secondary'} btn-full-width`}
+            >
+              Simulate: Found Directors
+            </button>
+          </div>
+        </div>
+
+        <button
+          onClick={handleContinue}
+          disabled={!analysisResult}
+          className="btn btn-primary btn-full-width btn-standalone"
+        >
+          Continue
+        </button>
+      </div>
     </Modal>
   );
 };

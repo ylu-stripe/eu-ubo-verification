@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { useUBO } from '../../../contexts/UBOContext';
 import { mockCompanyData } from '../../../data/mockData';
 import Modal from '../../ui/Modal';
+import PageHeader from '../../ui/PageHeader';
 
 const ConfirmStructure: React.FC = () => {
   const navigate = useNavigate();
@@ -37,16 +38,19 @@ const ConfirmStructure: React.FC = () => {
         ← Back
       </button>
 
-      <h1 className="page-title">Confirm your business structure</h1>
-      <p className="page-description">
-      Take a moment to confirm your business type, as this affects your verification process
-      </p>
+      <div className="content-section">
+        <PageHeader
+          title="Confirm your business structure"
+          description="Take a moment to confirm your business type, as this affects your verification process"
+        />
 
-      <div className="mb-24">
+        <div className="section-content">
         <h3 className="section-title">Review your business structure</h3>
         <p className="page-description">
           Make sure this information is correct.
         </p>
+
+      </div>
 
         {/* Data Mismatch Warning Banner */}
         {showDataMismatchWarning && (
@@ -71,11 +75,11 @@ const ConfirmStructure: React.FC = () => {
             Edit
           </button>
         </div>
-      </div>
 
-      <button onClick={handleContinue} className="btn btn-primary btn-full-width btn-standalone">
-        Continue
-      </button>
+        <button onClick={handleContinue} className="btn btn-primary btn-full-width btn-standalone">
+          Continue
+        </button>
+    </div>
     </Modal>
   );
 };

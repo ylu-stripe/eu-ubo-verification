@@ -14,10 +14,8 @@ const FlowControlPanel: React.FC = () => {
     activeOwners,
     directors,
     verificationMethod,
-    markKYBRequirementComplete,
-    markUBORequirementComplete,
-    sandboxMode,
-    setSandboxMode
+
+    markUBORequirementComplete
   } = useUBO();
   
   // Track pending changes locally
@@ -95,36 +93,6 @@ const FlowControlPanel: React.FC = () => {
     <div className="flow-control-panel">
       <h3 className="control-panel-title">🛠️ Flow Control Panel</h3>
       
-      {/* Sandbox Mode Toggle - Master Control */}
-      {/* 
-      <div className="sandbox-mode-section">
-        <div className="control-group">
-          <label className="control-label">
-            <span className="sandbox-mode-label">
-              🧪 Sandbox Mode
-              {sandboxMode && <span className="sandbox-active-indicator"> (EXPERIMENTAL)</span>}
-            </span>
-          </label>
-          <div className="toggle-wrapper">
-            <label className="toggle-switch">
-              <input
-                type="checkbox"
-                checked={sandboxMode}
-                onChange={(e) => setSandboxMode(e.target.checked)}
-              />
-              <span className="toggle-slider"></span>
-            </label>
-            <span className="toggle-label">{sandboxMode ? 'Experimental' : 'Production'}</span>
-          </div>
-        </div>
-        {sandboxMode && (
-          <div className="sandbox-mode-warning">
-            ⚠️ Using experimental components - isolated from main app flow
-          </div>
-        )}
-      </div>
-      */}
-      
       {/* Flow Lock Warning */}
       {isFlowActive && (
         <div className="flow-lock-warning">
@@ -163,35 +131,7 @@ const FlowControlPanel: React.FC = () => {
         </div>
       )}
       
-      {/* Regular Mode Controls */}
-      <>
-          {/* KYB Section */}
-          {/*
-          <div className="control-section">
-            <div className="control-section-header">
-              <h4 className="control-section-title">📋 KYB Settings</h4>
-              <span className={`status-badge ${(flowParams.kybComplete || flowParams.kybRequirementComplete) ? 'complete' : 'incomplete'}`}>
-                {(flowParams.kybComplete || flowParams.kybRequirementComplete) ? 'Complete' : 'Required'}
-              </span>
-            </div>
-            
-            <div className={`control-group ${isFlowActive ? 'disabled' : ''}`}>
-              <label className="control-label">KYB Complete:</label>
-              <div className="toggle-wrapper">
-                <label className="toggle-switch">
-                  <input
-                    type="checkbox"
-                    checked={pendingParams.kybComplete}
-                    onChange={(e) => handleToggle('kybComplete', e.target.checked)}
-                    disabled={isFlowActive}
-                  />
-                  <span className="toggle-slider"></span>
-                </label>
-                <span className="toggle-label">{pendingParams.kybComplete ? 'Yes' : 'No'}</span>
-              </div>
-            </div>
-          </div>
-          */}
+
 
           {/* UBO Section */}
           <div className="control-section">
@@ -237,7 +177,7 @@ const FlowControlPanel: React.FC = () => {
 
           <div className="control-status">
             <strong>Current Flow:</strong> {
-              !pendingParams.kybComplete ? 'KYB Verification' :
+  
               pendingParams.ubosFound ? 'UBO Found' : 'No UBOs Found → Directors'
             }
           </div>
@@ -253,7 +193,6 @@ const FlowControlPanel: React.FC = () => {
               </button>
             </div>
           )}
-        </>
     </div>
   );
 };

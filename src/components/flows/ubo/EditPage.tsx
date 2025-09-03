@@ -3,6 +3,7 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import { mockCompanyData, BeneficialOwner } from '../../../data/mockData';
 import { useUBO } from '../../../contexts/UBOContext';
 import Modal from '../../ui/Modal';
+import PageHeader from '../../ui/PageHeader';
 
 const EditPage: React.FC = () => {
   const navigate = useNavigate();
@@ -326,25 +327,22 @@ const EditPage: React.FC = () => {
         ← Back
       </button>
 
-      <h1 className="page-title">
-        {isDirectors && activeItems.length === 0 
-          ? 'Confirm your directors and executives'
-          : `Edit your ${isDirectors ? 'directors and executives' : 'beneficial owners'}`
-        }
-      </h1>
-      <p className="page-description">
-        {isDirectors && activeItems.length === 0
-          ? 'Directors and executives are senior individuals who significantly influence your organization. Add all directors and executives to continue with verification.'
-          : `Update this list to include all ${isDirectors 
-              ? 'directors and executives who significantly influence your organization'
-              : 'individuals with 25%+ ownership or control of a business, directly or indirectly'
-            }.`
-        }
-      </p>
+      <div className="content-section">
+        <PageHeader
+          title={isDirectors && activeItems.length === 0 
+            ? 'Confirm your directors and executives'
+            : `Edit your ${isDirectors ? 'directors and executives' : 'beneficial owners'}`
+          }
+          description={isDirectors && activeItems.length === 0
+            ? 'Directors and executives are senior individuals who significantly influence your organization. Add all directors and executives to continue with verification.'
+            : `Update this list to include all ${isDirectors 
+                ? 'directors and executives who significantly influence your organization'
+                : 'individuals with 25%+ ownership or control of a business, directly or indirectly'
+              }.`
+          }
+        />
 
-
-
-      <div className="mb-32">
+        <div className="section-content">
         <h3 className="section-title">
           {isDirectors ? 'Directors and executives' : 'Beneficial owners'} ({activeItems.length})
         </h3>
@@ -423,7 +421,7 @@ const EditPage: React.FC = () => {
 
       {/* Removed items section */}
       {removedItems.length > 0 && (
-        <div className="removed-section mb-32">
+        <div className="removed-section">
           <h3 className="section-title">Removed ({removedItems.length})</h3>
           <p className="removed-description">
             Removing {isDirectors ? 'a director will require documentation for proof of corporate structure' : 'an owner will require a document for proof of ownership'}.
@@ -470,16 +468,17 @@ const EditPage: React.FC = () => {
         </div>
       )}
 
-      <button
-        onClick={handleContinue}
-        disabled={isDirectors && activeItems.length === 0}
-        className="btn btn-primary btn-full-width btn-standalone"
-      >
-                   {activeItems.length > 0 
+        <button
+          onClick={handleContinue}
+          disabled={isDirectors && activeItems.length === 0}
+          className="btn btn-primary btn-full-width btn-standalone"
+        >
+          {activeItems.length > 0 
             ? 'Continue'
             : (isDirectors ? 'Add a director to continue' : 'Continue with no UBOs')
           }
-      </button>
+        </button>
+      </div>
     </Modal>
   );
 };
