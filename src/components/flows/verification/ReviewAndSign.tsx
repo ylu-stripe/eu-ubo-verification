@@ -90,7 +90,6 @@ const ReviewAndSign: React.FC = () => {
                       <path d="M9 1V5H13" stroke="#596171" strokeWidth="1.5" fill="none"/>
                     </svg>
                   </div>
-                  <span className="document-title">Beneficial Owner attestation</span>
                 </div>
 
                 {/* Document Preview */}

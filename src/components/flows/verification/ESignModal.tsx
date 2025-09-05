@@ -10,11 +10,15 @@ interface ESignModalProps {
 const ESignModal: React.FC<ESignModalProps> = ({ isOpen, onClose, onComplete }) => {
   const { activeOwners, directors, isDirectorsFlow } = useUBO();
   const [isLoading, setIsLoading] = useState(true);
+  const [signatureName, setSignatureName] = useState('');
 
   const isDirectors = isDirectorsFlow();
   const currentList = isDirectors ? directors : activeOwners;
-  const listType = isDirectors ? 'Directors and Executives' : 'Beneficial Owners';
   const documentTitle = isDirectors ? 'Corporate Structure Disclosure' : 'Beneficial Ownership Disclosure';
+  
+  // For demo purposes, using the first owner's name as the signer
+  const signerName = 'Steve Stevenson';
+  const isSignatureComplete = signatureName.toLowerCase().trim() === signerName.toLowerCase().trim();
 
   useEffect(() => {
     if (isOpen) {
@@ -28,8 +32,10 @@ const ESignModal: React.FC<ESignModalProps> = ({ isOpen, onClose, onComplete }) 
   }, [isOpen]);
 
   const handleAccept = () => {
-    onComplete();
-    onClose();
+    if (isSignatureComplete) {
+      onComplete();
+      onClose();
+    }
   };
 
   const handleCancel = () => {
@@ -41,30 +47,30 @@ const ESignModal: React.FC<ESignModalProps> = ({ isOpen, onClose, onComplete }) 
 
   return (
     <div className="esign-overlay">
-      <div className="esign-modal">
-        <div className="esign-header">
-          <h2 className="esign-title">Review document</h2>
-          <button className="esign-close" onClick={onClose}>
-            ×
-          </button>
+      <div className="esign-modal-new">
+        {/* Header */}
+        <div className="esign-header-new">
+          <div className="esign-header-content">
+            <div className="esign-header-text">
+              <h2 className="esign-title-new">Review and electronically sign</h2>
+              <p className="esign-description-new">
+                This document confirms your business's Beneficial Owners - all individuals who own more than 25% of the business.
+              </p>
+            </div>
+            <button className="esign-close-new" onClick={onClose}>
+              ×
+            </button>
+          </div>
         </div>
 
-        <div className="esign-content">
-          <p className="esign-description">
-            This document confirms your business's beneficial owners. Please review the information below carefully.{' '}
-            <a href="#" className="inline-link">
-              View support article
-            </a>
-          </p>
-
-          <div className="esign-document-section">
+        {/* Content */}
+        <div className="esign-content-new">
+          <div className="esign-document-container">
             <div className="esign-document-header">
-              <h3 className="esign-document-title">{documentTitle}</h3>
-              <button className="esign-download">
-                ↓ Download
-              </button>
+              <div className="esign-document-icon">📄</div>
+              <div className="esign-document-name">Beneficial Owner attestation</div>
             </div>
-
+            
             <div className="esign-document-preview">
               {isLoading ? (
                 <div className="esign-loading">
@@ -140,24 +146,45 @@ const ESignModal: React.FC<ESignModalProps> = ({ isOpen, onClose, onComplete }) 
             </div>
           </div>
 
-          <div className="esign-disclaimer">
-            <div className="esign-agreement-text">
-              Please review the information above and confirm that all details are accurate. You will complete the electronic signature in the next step.
+          {/* Signature Section */}
+          <div className="esign-signature-section">
+            <div className="esign-signature-label">
+              To be signed by <span className="esign-signer-name">{signerName}</span>
+            </div>
+            <div className="esign-signature-field">
+              <input
+                type="text"
+                value={signatureName}
+                onChange={(e) => setSignatureName(e.target.value)}
+                placeholder={`Enter "${signerName}" to sign`}
+                className="esign-signature-input"
+              />
+              {isSignatureComplete && (
+                <div className="esign-signature-checkmark">✓</div>
+              )}
             </div>
           </div>
 
-          <div className="esign-actions">
-            <button onClick={handleCancel} className="btn btn-secondary esign-btn">
-              Cancel
-            </button>
-            <button
-              onClick={handleAccept}
-              disabled={isLoading}
-              className="btn btn-primary esign-btn"
-            >
-              Continue to signature
-            </button>
+          <div className="esign-disclaimer-new">
+            <p>
+              By electronically signing your name, you will officially attest to the accuracy of your company's ownership information.{' '}
+              <a href="#" className="esign-support-link">View support article</a>
+            </p>
           </div>
+        </div>
+
+        {/* Footer */}
+        <div className="esign-footer-new">
+          <button onClick={handleCancel} className="btn btn-secondary esign-btn-new">
+            Back
+          </button>
+          <button
+            onClick={handleAccept}
+            disabled={isLoading || !isSignatureComplete}
+            className="btn btn-primary esign-btn-new"
+          >
+            Continue
+          </button>
         </div>
       </div>
     </div>

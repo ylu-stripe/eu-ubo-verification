@@ -1097,7 +1097,7 @@ body {
 }
 
 .esign-header {
-  padding: 20px 24px;
+  padding: 16px 16px;
   border-bottom: 1px solid #e5e7eb;
   display: flex;
   justify-content: space-between;
@@ -1109,6 +1109,7 @@ body {
   font-weight: 600;
   color: #1f2937;
   margin: 0;
+  padding: 0;
 }
 
 .esign-close {
@@ -1127,7 +1128,7 @@ body {
 }
 
 .esign-content {
-  padding: 24px;
+  padding: 16px;
   overflow-y: auto;
   max-height: calc(90vh - 100px);
 }
@@ -2331,9 +2332,7 @@ body {
 } 
 
 /* Business Structure Edit Styles */
-.form-section {
-  margin-bottom: 32px;
-}
+
 
 .form-section-header {
   display: flex;
@@ -2555,9 +2554,7 @@ body {
   color: #1f2937;
 }
 
-.success-info-section {
-  margin-bottom: 40px;
-}
+
 
 .success-info-title {
   font-size: 16px;
@@ -3607,4 +3604,273 @@ body {
 .btn.disabled:hover,
 .btn:disabled:hover {
   background-color: #e5e7eb;
+}
+
+/* New ESign Modal Styles */
+.esign-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(182, 192, 205, 0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 45px 255px;
+}
+
+.esign-modal-new {
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0px 7px 14px 0px rgba(48, 49, 61, 0.08), 0px 3px 6px 0px rgba(0, 0, 0, 0.12);
+  width: 1280px;
+  height: 900px;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.esign-header-new {
+  background: white;
+  height: 64px;
+  border-bottom: 1px solid #d8dee4;
+  display: flex;
+  align-items: center;
+  padding: 0 20px;
+  position: relative;
+}
+
+.esign-header-content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.esign-header-text {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.esign-title-new {
+  font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, sans-serif;
+  font-weight: 600;
+  font-size: 28px;
+  line-height: 36px;
+  color: #353a44;
+  margin: 0;
+  letter-spacing: 0.3404px;
+}
+
+.esign-description-new {
+  font-family: 'SF Pro Text', -apple-system, BlinkMacSystemFont, sans-serif;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 24px;
+  color: #353a44;
+  margin: 0;
+  letter-spacing: -0.31px;
+}
+
+.esign-close-new {
+  background: none;
+  border: none;
+  font-size: 24px;
+  color: #596171;
+  cursor: pointer;
+  padding: 4px;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+}
+
+.esign-close-new:hover {
+  background-color: #f5f6f8;
+}
+
+.esign-content-new {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+  padding: 48px;
+  overflow-y: auto;
+}
+
+.esign-document-container {
+  background: white;
+  border-radius: 6px;
+  border: 1px solid #e3e8ee;
+  overflow: hidden;
+}
+
+.esign-document-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 16px;
+  border-bottom: 1px solid #e3e8ee;
+}
+
+.esign-document-icon {
+  font-size: 16px;
+}
+
+.esign-document-name {
+  font-family: 'SF Pro Text', -apple-system, BlinkMacSystemFont, sans-serif;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 24px;
+  color: #596171;
+  letter-spacing: -0.31px;
+}
+
+.esign-document-preview {
+  background: #f5f6f8;
+  min-height: 190px;
+  padding: 16px;
+  border-radius: 6px;
+  margin: 16px;
+}
+
+.esign-signature-section {
+  background: #f7fafc;
+  border: 1px solid #e3e8ee;
+  border-radius: 6px;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.esign-signature-label {
+  font-family: 'SF Pro Text', -apple-system, BlinkMacSystemFont, sans-serif;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 20px;
+  color: #353a44;
+  letter-spacing: -0.15px;
+}
+
+.esign-signer-name {
+  font-weight: 600;
+}
+
+.esign-signature-field {
+  position: relative;
+  width: 100%;
+}
+
+.esign-signature-input {
+  width: 100%;
+  height: 77px;
+  border: 1px solid #635bff;
+  border-radius: 4px;
+  padding: 0 20px;
+  font-family: 'Birthstone', cursive;
+  font-size: 36px;
+  color: #1a1f36;
+  background: white;
+  box-shadow: 0px 2.5px 7px -3px rgba(50, 50, 93, 0.25), 0px 1.5px 3px -1.5px rgba(0, 0, 0, 0.1);
+  letter-spacing: -0.154px;
+}
+
+.esign-signature-input:focus {
+  outline: none;
+  border-color: #635bff;
+}
+
+.esign-signature-input::placeholder {
+  font-family: 'SF Pro Text', -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: 12px;
+  color: #8792a2;
+  position: absolute;
+  bottom: 8px;
+  left: 20px;
+}
+
+.esign-signature-checkmark {
+  position: absolute;
+  top: 27px;
+  left: -8px;
+  width: 28px;
+  height: 22px;
+  background: #635bff;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 12px;
+  font-weight: bold;
+}
+
+.esign-disclaimer-new {
+  font-family: 'SF Pro Text', -apple-system, BlinkMacSystemFont, sans-serif;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 20px;
+  color: #596171;
+  letter-spacing: -0.15px;
+}
+
+.esign-support-link {
+  color: #635bff;
+  text-decoration: underline;
+  text-underline-position: from-font;
+}
+
+.esign-footer-new {
+  background: white;
+  border-top: 1px solid #e3e8ee;
+  padding: 16px;
+  display: flex;
+  gap: 24px;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.esign-btn-new {
+  padding: 8px 16px;
+  border-radius: 4px;
+  font-family: 'SF Pro Text', -apple-system, BlinkMacSystemFont, sans-serif;
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 24px;
+  letter-spacing: -0.32px;
+  cursor: pointer;
+  border: none;
+  min-width: 100px;
+}
+
+.esign-btn-new.btn-secondary {
+  background: white;
+  color: #3c4257;
+  border: 1px solid rgba(60, 66, 87, 0.12);
+  box-shadow: 0px 1px 1px 0px rgba(0, 0, 0, 0.12), 0px 2px 5px 0px rgba(60, 66, 87, 0.08);
+}
+
+.esign-btn-new.btn-primary {
+  background: #675dff;
+  color: white;
+  border: 1px solid #625afa;
+  box-shadow: 0px 1px 1px 0px rgba(20, 19, 78, 0.32), 0px 0px 0px 1px #625afa;
+}
+
+.esign-btn-new.btn-primary:disabled {
+  background: #e5e7eb;
+  color: #9ca3af;
+  border-color: #e5e7eb;
+  box-shadow: none;
+  cursor: not-allowed;
+}
+
+.esign-btn-new:hover:not(:disabled) {
+  opacity: 0.9;
 }

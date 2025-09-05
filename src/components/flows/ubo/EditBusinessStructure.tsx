@@ -69,7 +69,7 @@ const EditBusinessStructure: React.FC = () => {
           [UBO verification is applicable for Company, Corporation, LLC, and Partnership legal entity structures. Additional info goes here]
         </p>
 
-        <div className="mb-32">
+        <div>
           <div className="form-section">
             <div className="form-section-header">
               <label className="form-section-label">Business type</label>
@@ -89,12 +89,8 @@ const EditBusinessStructure: React.FC = () => {
                       <div className="preview-line" style={{ width: '80%' }} />
                       <div className="preview-line" style={{ width: '60%' }} />
                       <div className="preview-line" style={{ width: '40%' }} />
-                      <div className="preview-line" style={{ width: '70%' }} />
                       <div className="preview-line" style={{ width: '90%' }} />
-                      <div className="preview-line" style={{ width: '50%' }} />
-                      <div className="preview-line" style={{ width: '85%' }} />
-                      <div className="preview-line" style={{ width: '65%' }} />
-                      <div className="preview-line" style={{ width: '45%' }} />
+                    
                     </div>
                   </div>
                 </div>
@@ -129,9 +125,7 @@ const EditBusinessStructure: React.FC = () => {
                       <div className="preview-line" style={{ width: '85%' }} />
                       <div className="preview-line" style={{ width: '55%' }} />
                       <div className="preview-line" style={{ width: '95%' }} />
-                      <div className="preview-line" style={{ width: '65%' }} />
-                      <div className="preview-line" style={{ width: '80%' }} />
-                      <div className="preview-line" style={{ width: '40%' }} />
+                   
                     </div>
                   </div>
                 </div>
