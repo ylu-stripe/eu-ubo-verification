@@ -3606,271 +3606,274 @@ body {
   background-color: #e5e7eb;
 }
 
-/* New ESign Modal Styles */
-.esign-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: rgba(182, 192, 205, 0.7);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 1000;
-  padding: 45px 255px;
-}
-
+/* New ESign Modal Design - Based on Figma */
 .esign-modal-new {
   background: white;
   border-radius: 8px;
-  box-shadow: 0px 7px 14px 0px rgba(48, 49, 61, 0.08), 0px 3px 6px 0px rgba(0, 0, 0, 0.12);
-  width: 1280px;
-  height: 900px;
+  box-shadow: 0px 15px 35px 0px rgba(48,49,61,0.08), 0px 5px 15px 0px rgba(0,0,0,0.12);
+  width: 770px;
+  max-height: 90vh;
   display: flex;
   flex-direction: column;
   overflow: hidden;
 }
 
-.esign-header-new {
+.esign-dialog-header {
   background: white;
-  height: 64px;
+  padding: 16px;
   border-bottom: 1px solid #d8dee4;
   display: flex;
-  align-items: center;
-  padding: 0 20px;
-  position: relative;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  flex-shrink: 0;
+  position: sticky;
+  top: 0;
+  z-index: 3;
 }
 
 .esign-header-content {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  width: 100%;
-}
-
-.esign-header-text {
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-}
-
-.esign-title-new {
-  font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, sans-serif;
-  font-weight: 600;
-  font-size: 28px;
-  line-height: 36px;
-  color: #353a44;
-  margin: 0;
-  letter-spacing: 0.3404px;
-}
-
-.esign-description-new {
-  font-family: 'SF Pro Text', -apple-system, BlinkMacSystemFont, sans-serif;
-  font-weight: 400;
-  font-size: 16px;
-  line-height: 24px;
-  color: #353a44;
-  margin: 0;
-  letter-spacing: -0.31px;
-}
-
-.esign-close-new {
-  background: none;
-  border: none;
-  font-size: 24px;
-  color: #596171;
-  cursor: pointer;
-  padding: 4px;
-  border-radius: 4px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 28px;
-  height: 28px;
-}
-
-.esign-close-new:hover {
-  background-color: #f5f6f8;
-}
-
-.esign-content-new {
   flex: 1;
   display: flex;
   flex-direction: column;
-  gap: 32px;
-  padding: 48px;
-  overflow-y: auto;
+  gap: 4px;
 }
 
-.esign-document-container {
-  background: white;
-  border-radius: 6px;
-  border: 1px solid #e3e8ee;
-  overflow: hidden;
-}
-
-.esign-document-header {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  padding: 16px;
-  border-bottom: 1px solid #e3e8ee;
-}
-
-.esign-document-icon {
-  font-size: 16px;
-}
-
-.esign-document-name {
-  font-family: 'SF Pro Text', -apple-system, BlinkMacSystemFont, sans-serif;
-  font-weight: 400;
+.esign-dialog-title {
+  font-family: 'SF Pro Text', sans-serif;
+  font-weight: 700;
   font-size: 16px;
   line-height: 24px;
-  color: #596171;
+  color: #353a44;
+  margin: 0;
   letter-spacing: -0.31px;
 }
 
-.esign-document-preview {
-  background: #f5f6f8;
-  min-height: 190px;
-  padding: 16px;
-  border-radius: 6px;
-  margin: 16px;
-}
-
-.esign-signature-section {
-  background: #f7fafc;
-  border: 1px solid #e3e8ee;
-  border-radius: 6px;
-  padding: 16px;
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
-
-.esign-signature-label {
-  font-family: 'SF Pro Text', -apple-system, BlinkMacSystemFont, sans-serif;
-  font-weight: 400;
-  font-size: 14px;
-  line-height: 20px;
-  color: #353a44;
-  letter-spacing: -0.15px;
-}
-
-.esign-signer-name {
-  font-weight: 600;
-}
-
-.esign-signature-field {
-  position: relative;
-  width: 100%;
-}
-
-.esign-signature-input {
-  width: 100%;
-  height: 77px;
-  border: 1px solid #635bff;
-  border-radius: 4px;
-  padding: 0 20px;
-  font-family: 'Birthstone', cursive;
-  font-size: 36px;
-  color: #1a1f36;
-  background: white;
-  box-shadow: 0px 2.5px 7px -3px rgba(50, 50, 93, 0.25), 0px 1.5px 3px -1.5px rgba(0, 0, 0, 0.1);
-  letter-spacing: -0.154px;
-}
-
-.esign-signature-input:focus {
-  outline: none;
-  border-color: #635bff;
-}
-
-.esign-signature-input::placeholder {
-  font-family: 'SF Pro Text', -apple-system, BlinkMacSystemFont, sans-serif;
-  font-size: 12px;
-  color: #8792a2;
-  position: absolute;
-  bottom: 8px;
-  left: 20px;
-}
-
-.esign-signature-checkmark {
-  position: absolute;
-  top: 27px;
-  left: -8px;
-  width: 28px;
-  height: 22px;
-  background: #635bff;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: white;
-  font-size: 12px;
-  font-weight: bold;
-}
-
-.esign-disclaimer-new {
-  font-family: 'SF Pro Text', -apple-system, BlinkMacSystemFont, sans-serif;
+.esign-dialog-description {
+  font-family: 'SF Pro Text', sans-serif;
   font-weight: 400;
   font-size: 14px;
   line-height: 20px;
   color: #596171;
+  margin: 0;
   letter-spacing: -0.15px;
 }
 
 .esign-support-link {
-  color: #635bff;
+  color: #596171;
   text-decoration: underline;
   text-underline-position: from-font;
 }
 
-.esign-footer-new {
-  background: white;
-  border-top: 1px solid #e3e8ee;
-  padding: 16px;
-  display: flex;
-  gap: 24px;
-  justify-content: flex-end;
-  align-items: center;
+.esign-support-link:hover {
+  color: #533afd;
 }
 
-.esign-btn-new {
-  padding: 8px 16px;
+.esign-dialog-close {
+  background: none;
+  border: none;
+  width: 28px;
+  height: 28px;
   border-radius: 4px;
-  font-family: 'SF Pro Text', -apple-system, BlinkMacSystemFont, sans-serif;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: #474e5a;
+  font-size: 16px;
+  transition: background-color 0.2s;
+}
+
+.esign-dialog-close:hover {
+  background-color: #f5f6f8;
+}
+
+.esign-dialog-content {
+  background: white;
+  padding: 16px;
+  overflow-x: hidden;
+  overflow-y: auto;
+  flex: 1;
+  z-index: 2;
+}
+
+.esign-document-preview-container {
+  border: 1px solid #d8dee4;
+  border-radius: 4px;
+  overflow: hidden;
+  background: #f5f6f8;
+}
+
+.esign-document-preview {
+  background: #f5f6f8;
+  padding: 24px 16px;
+  min-height: 522px;
+  overflow-y: auto;
+}
+
+.esign-document-content {
+  background: white;
+  border-radius: 4px;
+  padding: 20px;
+  box-shadow: 0px 15px 35px 0px rgba(48,49,61,0.08), 0px 5px 15px 0px rgba(0,0,0,0.12);
+  max-width: 584px;
+  margin: 0 auto;
+}
+
+.esign-document-text {
+  font-family: 'SF Pro Text', sans-serif;
+}
+
+.esign-document-title {
+  font-family: 'SF Pro Text', sans-serif;
   font-weight: 600;
   font-size: 16px;
   line-height: 24px;
-  letter-spacing: -0.32px;
-  cursor: pointer;
-  border: none;
-  min-width: 100px;
+  color: #353a44;
+  text-align: center;
+  margin: 0 0 24px 0;
 }
 
-.esign-btn-new.btn-secondary {
+.esign-table-section {
+  margin-bottom: 24px;
+}
+
+.esign-table-title {
+  font-family: 'SF Pro Text', sans-serif;
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 20px;
+  color: #353a44;
+  margin-bottom: 12px;
+}
+
+.esign-table {
+  width: 100%;
+  border: 1px solid #e5e7eb;
+  border-collapse: collapse;
+  font-size: 12px;
+  font-family: 'SF Pro Text', sans-serif;
+}
+
+.esign-table th {
+  border: 1px solid #e5e7eb;
+  padding: 8px;
+  text-align: left;
+  font-weight: 600;
+  background-color: #f9fafb;
+  color: #353a44;
+}
+
+.esign-table td {
+  border: 1px solid #e5e7eb;
+  padding: 12px;
+  color: #353a44;
+}
+
+.esign-table-subtitle {
+  font-size: 10px;
+  font-weight: 400;
+  color: #6b7280;
+}
+
+.esign-placeholder-cell {
+  height: 40px;
+  position: relative;
+}
+
+.esign-placeholder-line {
+  background-color: #e5e7eb;
+  height: 3px;
+  border-radius: 2px;
+  margin-bottom: 4px;
+}
+
+.esign-placeholder-line:first-child {
+  width: 70%;
+}
+
+.esign-placeholder-line.short {
+  width: 40%;
+  margin-bottom: 0;
+}
+
+.esign-attestation-text {
+  font-family: 'SF Pro Text', sans-serif;
+  font-size: 12px;
+  line-height: 1.4;
+  color: #353a44;
+  margin-bottom: 24px;
+}
+
+.esign-dialog-footer {
   background: white;
-  color: #3c4257;
-  border: 1px solid rgba(60, 66, 87, 0.12);
-  box-shadow: 0px 1px 1px 0px rgba(0, 0, 0, 0.12), 0px 2px 5px 0px rgba(60, 66, 87, 0.08);
+  padding: 16px;
+  border-top: 1px solid #d8dee4;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 8px;
+  flex-shrink: 0;
+  position: sticky;
+  bottom: 0;
+  z-index: 1;
 }
 
-.esign-btn-new.btn-primary {
+.esign-footer-actions {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.esign-download-btn {
+  background: white;
+  border: 1px solid #d5dbe1;
+  color: #353a44;
+  font-family: 'SF Pro Text', sans-serif;
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 20px;
+  padding: 4px 8px;
+  border-radius: 6px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+  box-shadow: 0px 1px 1px 0px rgba(26,27,37,0.16);
+  transition: all 0.2s;
+}
+
+.esign-download-btn:hover {
+  background-color: #f9fafb;
+}
+
+.esign-close-btn {
   background: #675dff;
-  color: white;
   border: 1px solid #625afa;
-  box-shadow: 0px 1px 1px 0px rgba(20, 19, 78, 0.32), 0px 0px 0px 1px #625afa;
+  color: white;
+  font-family: 'SF Pro Text', sans-serif;
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 20px;
+  padding: 4px 8px;
+  border-radius: 6px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+  box-shadow: 0px 1px 1px 0px rgba(20,19,78,0.32);
+  transition: all 0.2s;
 }
 
-.esign-btn-new.btn-primary:disabled {
-  background: #e5e7eb;
-  color: #9ca3af;
-  border-color: #e5e7eb;
-  box-shadow: none;
+.esign-close-btn:hover {
+  background: #5a52e8;
+}
+
+.esign-close-btn:disabled {
+  opacity: 0.6;
   cursor: not-allowed;
-}
-
-.esign-btn-new:hover:not(:disabled) {
-  opacity: 0.9;
+  background: #9ca3af;
+  border-color: #9ca3af;
 }
