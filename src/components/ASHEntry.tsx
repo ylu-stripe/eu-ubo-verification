@@ -158,10 +158,7 @@ const ASHEntry: React.FC = () => {
             <div className="ash-tab">Bank accounts and currencies</div>
             <div className="ash-tab">Branding</div>
             <div className="ash-tab">Custom domains</div>
-            <div className="ash-tab">
-              More
-              <span className="ash-tab-arrow">▼</span>
-            </div>
+          
           </div>
         </div>
 

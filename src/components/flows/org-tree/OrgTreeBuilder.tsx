@@ -2,78 +2,44 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useUBO } from '../../../contexts/UBOContext';
 import Modal from '../../ui/Modal';
+import orgTreeImage from '../../../orgtree.png';
+import PageHeader from '../../ui/PageHeader';
 
 const OrgTreeBuilder: React.FC = () => {
   const navigate = useNavigate();
   const { setFlowParams, setActiveOwners, setDirectors } = useUBO();
-  const [analysisResult, setAnalysisResult] = useState<'ubos' | 'directors' | null>(null);
 
   const handleBack = () => {
     navigate('/company-information');
   };
 
   const handleContinue = () => {
-    // Use the user's selected analysis result
-    if (analysisResult === 'ubos') {
-      // Org tree found UBOs - go to UBOs confirmation flow
-          setFlowParams({
+    // Default to UBOs flow with prefilled owners
+    setFlowParams({
       ubosFound: true,
       directorsFound: false,
       legalEntityMatch: 'trulioo_stripe',
-      uboRequirementComplete: false
-      });
-      // Set some mock UBOs from org tree analysis
-      setActiveOwners([
-        {
-          id: 'orgtree_ubo_1',
-          name: 'Ultimate Beneficial Owner 1',
-          percentage: 60,
-          ownershipType: 'indirect',
-        },
-        {
-          id: 'orgtree_ubo_2', 
-          name: 'Ultimate Beneficial Owner 2',
-          percentage: 40,
-          ownershipType: 'indirect',
-        }
-             ]);
-       navigate('/confirm-owners');
-     } else if (analysisResult === 'directors') {
-       // Org tree found no UBOs, switch to directors flow
-      setFlowParams({
-        ubosFound: false,
-        directorsFound: true,
-        legalEntityMatch: 'trulioo_stripe',
-        uboRequirementComplete: false
-      });
-      // Set some mock directors from org tree analysis
-      setDirectors([
-        {
-          id: 'orgtree_director_1',
-          name: 'Director One',
-          percentage: 0,
-          ownershipType: 'direct',
-          role: 'CEO'
-        },
-        {
-          id: 'orgtree_director_2',
-          name: 'Director Two', 
-          percentage: 0,
-          ownershipType: 'direct',
-          role: 'CFO'
-        }
-      ]);
-      navigate('/confirm-directors');
-    }
+      uboRequirementComplete: false,
+      dataSource: 'org_tree'
+    });
+    // Set some mock UBOs from org tree analysis
+    setActiveOwners([
+      {
+        id: 'orgtree_ubo_1',
+        name: 'Ultimate Beneficial Owner 1',
+        percentage: 60,
+        ownershipType: 'indirect',
+      },
+      {
+        id: 'orgtree_ubo_2', 
+        name: 'Ultimate Beneficial Owner 2',
+        percentage: 40,
+        ownershipType: 'indirect',
+      }
+    ]);
+    navigate('/confirm-owners');
   };
 
-  const handleSimulateUBOs = () => {
-    setAnalysisResult('ubos');
-  };
-
-  const handleSimulateDirectors = () => {
-    setAnalysisResult('directors');
-  };
 
   return (
     <Modal title="Verify ownership">
@@ -82,53 +48,34 @@ const OrgTreeBuilder: React.FC = () => {
       </button>
 
       <div className="content-section">
-        <h1 className="page-title">Build your ownership tree</h1>
-        <p className="page-description">
-          We'll help you map out your complex ownership structure to identify your ultimate beneficial owners.
-        </p>
+        <PageHeader title="Build your ownership tree" description="We'll help you map out your complex ownership structure to identify your ultimate beneficial owners." />
+        
 
-        <div className="mb-24">
-          <div className="placeholder-content">
-            <div className="placeholder-icon">🏗️</div>
-            <h3 className="placeholder-title">Org Tree Builder</h3>
-            <p className="placeholder-description">
-              This is a placeholder for the organizational tree builder flow. This tool will help you:
-            </p>
-            <ul className="placeholder-list">
-              <li>Map complex ownership structures</li>
-              <li>Identify intermediate holding companies</li>
-              <li>Calculate beneficial ownership percentages</li>
-              <li>Determine ultimate beneficial owners</li>
-            </ul>
+        <div className="org-tree-builder-container">
+          <div className="placeholder-banner">
+            <div className="placeholder-banner-content">
+              <div className="placeholder-banner-icon">🚧</div>
+              <div className="placeholder-banner-text">
+                <div className="placeholder-banner-title">Placeholder Flow</div>
+                <div className="placeholder-banner-description">
+                  This is a placeholder for the organizational tree builder. The actual tool will help you map complex ownership structures.
+                </div>
+              </div>
+            </div>
           </div>
-        </div>
-
-        <div className="mb-32">
-          <h3 className="section-title">Simulate analysis result</h3>
-          <p className="section-description">
-            For demo purposes, you can simulate what the org tree analysis would find:
-          </p>
           
-          <div className="simulation-buttons">
-            <button 
-              onClick={handleSimulateUBOs}
-              className={`btn ${analysisResult === 'ubos' ? 'btn-primary' : 'btn-secondary'} btn-full-width`}
-            >
-              Simulate: Found UBOs
-            </button>
-            
-            <button 
-              onClick={handleSimulateDirectors}
-              className={`btn ${analysisResult === 'directors' ? 'btn-primary' : 'btn-secondary'} btn-full-width`}
-            >
-              Simulate: Found Directors
-            </button>
+          <div className="org-tree-image-container">
+            <img 
+              src={orgTreeImage} 
+              alt="Organizational tree visualization" 
+              className="org-tree-image"
+            />
           </div>
         </div>
 
+       
         <button
           onClick={handleContinue}
-          disabled={!analysisResult}
           className="btn btn-primary btn-full-width btn-standalone"
         >
           Continue

@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { useUBO } from '../../../contexts/UBOContext';
 import Modal from '../../ui/Modal';
 import PageHeader from '../../ui/PageHeader';
+import PeopleList from '../../ui/PeopleList';
 
 const VerificationMethod: React.FC = () => {
   const navigate = useNavigate();
@@ -36,7 +37,7 @@ const VerificationMethod: React.FC = () => {
       navigate('/review-and-sign');
     } else {
       setVerificationMethod('upload');
-      navigate('/document-review-status');
+      navigate('/upload-documents');
     }
   };
 
@@ -54,26 +55,11 @@ const VerificationMethod: React.FC = () => {
           />
 
           <div className="section-content">
-          <div className="verification-owners-section">
-            <div className="verification-owners-header">
-              <h3 className="section-title">{listType.charAt(0).toUpperCase() + listType.slice(1)} ({currentList.length})</h3>
-          
-            </div>
-
-            <div className="verification-owners-list">
-              {currentList.map((item) => (
-                <div key={item.id} className="verification-owner-item">
-                  {item.name}
-                  {item.role && (
-                    <div style={{ fontSize: '12px', color: '#6b7280', marginTop: '2px' }}>
-                      {item.role}
-                    </div>
-                  )}
-                </div>
-              ))}
-            </div>
+            <PeopleList
+              title={listType.charAt(0).toUpperCase() + listType.slice(1)}
+              people={currentList}
+            />
           </div>
-        </div>
         <div>
         <h3 className="section-title">Verification method</h3>
         

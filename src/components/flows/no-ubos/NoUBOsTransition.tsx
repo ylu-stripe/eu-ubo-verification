@@ -2,10 +2,11 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useUBO } from '../../../contexts/UBOContext';
 import Modal from '../../ui/Modal';
+import InfoCallout from '../../ui/InfoCallout';
 
 const NoUBOsTransition: React.FC = () => {
   const navigate = useNavigate();
-  const { setFlowParams, flowParams } = useUBO();
+  const { setFlowParams, flowParams, setActiveOwners, setRemovedOwners } = useUBO();
 
   const handleContinue = () => {
     // Switch to directors flow, but respect original directorsFound setting
@@ -29,6 +30,19 @@ const NoUBOsTransition: React.FC = () => {
   };
 
   const handleAddOwners = () => {
+    // Switch flow to beneficial owners and navigate to that flow
+    setFlowParams({
+      ...flowParams,
+      ubosFound: true,
+      directorsFound: false
+    });
+    
+    // If we're coming from a "no owners" flow, clear the existing owners
+    if (!flowParams.ubosFound) {
+      setActiveOwners([]);
+      setRemovedOwners([]);
+    }
+    
     navigate('/edit-owners');
   };
 
@@ -39,28 +53,27 @@ const NoUBOsTransition: React.FC = () => {
       </button>
 
       <div className="content-section">
-        <h1 className="page-title">
-          {flowParams.directorsFound 
-            ? "We'll verify your directors instead" 
-            : "We need to verify your directors instead"
-          }
-        </h1>
-        <p className="page-description">
-          Since you have no beneficial owners with 25%+ ownership or control, we'll need information about your directors and executives instead.
-        </p>
-
+        <div>
+          <h1 className="page-title">
+            {flowParams.directorsFound 
+              ? "We'll verify your directors instead" 
+              : "We need to verify your directors instead"
+            }
+          </h1>
+          <p className="page-description">
+            Since you have no beneficial owners with 25%+ ownership or control, we'll need information about your directors and executives instead.
+          </p>
+      </div>
         <div className="mb-32">
-          <div className="info-box">
-            <h3 className="info-box-title">Who are directors and executives?</h3>
-            <p className="info-box-text">
-                            Directors and executives are senior individuals who significantly influence your organization's operations and decision-making. This includes:
-            </p>
-            <ul className="info-box-list">
-              <li>Board members and directors</li>
-              <li>Executive officers (CEO, CFO, COO, etc.)</li>
-              <li>Other senior management with significant authority</li>
-            </ul>
-          </div>
+          <InfoCallout
+            title="Who are directors and executives?"
+            description="Directors and executives are senior individuals who significantly influence your organization's operations and decision-making. This includes:"
+            items={[
+              "Board members and directors",
+              "Executive officers (CEO, CFO, COO, etc.)",
+              "Other senior management with significant authority"
+            ]}
+          />
         </div>
 
         <div className="button-group" style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>

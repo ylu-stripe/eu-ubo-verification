@@ -14,12 +14,11 @@ import NoUBOsFound from './components/flows/no-ubos/NoUBOsFound';
 import CompanyInformation from './components/flows/ubo/CompanyInformation';
 import OrgTreeBuilder from './components/flows/org-tree/OrgTreeBuilder';
 import VerificationMethod from './components/flows/verification/VerificationMethod';
-import DocumentReview from './components/flows/verification/DocumentReview';
-import ReviewAttestation from './components/flows/verification/ReviewAttestation';
 import EditBusinessStructure from './components/flows/ubo/EditBusinessStructure';
 import SuccessPage from './components/flows/ubo/SuccessPage';
 import DocumentReviewPage from './components/flows/verification/DocumentReviewPage';
 import ReviewAndSign from './components/flows/verification/ReviewAndSign';
+import UploadDocuments from './components/flows/verification/UploadDocuments';
 
 import './App.css';
 
@@ -44,12 +43,11 @@ const AppContent: React.FC = () => {
         <Route path="/company-information" element={<CompanyInformation />} />
         <Route path="/org-tree-builder" element={<OrgTreeBuilder />} />
         <Route path="/verification-method" element={<VerificationMethod />} />
-        <Route path="/document-review" element={<DocumentReview />} />
-        <Route path="/review-attestation" element={<ReviewAttestation />} />
         <Route path="/edit-business-structure" element={<EditBusinessStructure />} />
         <Route path="/success" element={<SuccessPage />} />
         <Route path="/document-review-status" element={<DocumentReviewPage />} />
         <Route path="/review-and-sign" element={<ReviewAndSign />} />
+        <Route path="/upload-documents" element={<UploadDocuments />} />
       </Routes>
     </div>
   );

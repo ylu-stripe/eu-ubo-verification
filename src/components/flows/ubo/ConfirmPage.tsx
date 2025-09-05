@@ -13,7 +13,10 @@ const ConfirmPage: React.FC = () => {
     flowParams, 
     isDirectorsFlow, 
     hasChanges, 
-    hasDirectorChanges 
+    hasDirectorChanges,
+    setFlowParams,
+    setActiveOwners,
+    setRemovedOwners
   } = useUBO();
 
   // Determine if this is directors mode based on URL route, not just flow parameters
@@ -33,6 +36,19 @@ const ConfirmPage: React.FC = () => {
   };
 
   const handleAddBeneficialOwners = () => {
+    // Switch flow to beneficial owners and navigate to that flow
+    setFlowParams({
+      ...flowParams,
+      ubosFound: true,
+      directorsFound: false
+    });
+    
+    // If we're coming from a "no owners" flow, clear the existing owners
+    if (!flowParams.ubosFound) {
+      setActiveOwners([]);
+      setRemovedOwners([]);
+    }
+    
     navigate('/edit-owners');
   };
 
@@ -45,10 +61,11 @@ const ConfirmPage: React.FC = () => {
   };
 
   const handleContinue = () => {
-    if (hasCurrentChanges()) {
+    if (hasCurrentChanges() || flowParams.dataSource === 'org_tree') {
+      // User made changes OR data came from org tree (manual entry) - go to verification
       navigate('/verification-method');
     } else {
-      // User confirmed prefilled data without changes - go to success
+      // User confirmed prefilled data from public records without changes - go to success
       navigate('/success');
     }
   };
@@ -177,7 +194,12 @@ const ConfirmPage: React.FC = () => {
         />
 
           <div className="suggestions-container">
-            <h3 className="suggestions-header">Suggestions based on public records</h3>
+            <h3 className="suggestions-header">
+              {flowParams.dataSource === 'org_tree' 
+                ? 'Suggestions based on your org tree' 
+                : 'Suggestions based on public records'
+              }
+            </h3>
             {activeOwners.map((owner) => (
               <div key={owner.id} className="owner-suggestion">
                 {owner.name}

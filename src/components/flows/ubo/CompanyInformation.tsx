@@ -81,14 +81,15 @@ const CompanyInformation: React.FC = () => {
           </label>
         </div>
 
-          <button
+
+        </div>
+        <button
             onClick={handleContinue}
             disabled={!selectedComplexity}
             className="btn btn-primary btn-full-width btn-standalone"
           >
             Continue
           </button>
-        </div>
       </div>
     </Modal>
   );

@@ -78,7 +78,10 @@ const ReviewAndSign: React.FC = () => {
 
             <PageHeader
               title="Review and sign"
-              description="This document confirms your business's Beneficial Owners - all individuals who own more than 25% of the business."
+              description={isDirectors 
+                ? "This document confirms your business's Directors - all individuals who serve as directors of the business."
+                : "This document confirms your business's Beneficial Owners - all individuals who own more than 25% of the business."
+              }
             />
 
             <div className="document-section">
@@ -90,6 +93,7 @@ const ReviewAndSign: React.FC = () => {
                       <path d="M9 1V5H13" stroke="#596171" strokeWidth="1.5" fill="none"/>
                     </svg>
                   </div>
+                  <span className="document-title">{isDirectors ? "Director attestation" : "Beneficial Owner attestation"}</span>
                 </div>
 
                 {/* Document Preview */}
@@ -107,7 +111,7 @@ const ReviewAndSign: React.FC = () => {
                   <div className="document-preview-content">
                     <img 
                       src={fakeDocImage} 
-                      alt="Beneficial Owner attestation document"
+                      alt={isDirectors ? "Director attestation document" : "Beneficial Owner attestation document"}
                       className="document-image"
                     />
                   </div>

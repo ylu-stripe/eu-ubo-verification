@@ -8,6 +8,8 @@ export interface FlowParameters {
   uboRequirementComplete: boolean;
   // Sandbox mode matching strategy
   twoWayMatch?: boolean;
+  // Track data source
+  dataSource?: 'public_records' | 'org_tree';
 }
 
 interface UBOContextType {
@@ -90,9 +92,11 @@ export const UBOProvider: React.FC<UBOProviderProps> = ({ children, initialOwner
   };
 
   const shouldShowDirectors = () => {
-    // Show directors flow only when no UBOs found AND directors are found
-    // Otherwise, always prioritize UBO flow
-    return !flowParams.ubosFound && flowParams.directorsFound;
+    // Show directors flow when:
+    // 1. No UBOs found AND directors are found (original flow logic), OR
+    // 2. User has no active owners but has directors (user removed all owners and added directors)
+    return (!flowParams.ubosFound && flowParams.directorsFound) || 
+           (activeOwners.length === 0 && directors.length > 0);
   };
 
   const isDirectorsFlow = () => {

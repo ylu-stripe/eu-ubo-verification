@@ -184,6 +184,14 @@ const EditPage: React.FC = () => {
       navigate('/no-ubos-transition');
       return;
     }
+    
+    // Special case: if this is directors and user has added directors, update flowParams
+    if (isDirectors && activeItems.length > 0 && !flowParams.directorsFound) {
+      setFlowParams({
+        ...flowParams,
+        directorsFound: true
+      });
+    }
      
      // Check if there are changes
      const hasRemovedItems = originalList.some(original => 
@@ -216,6 +224,13 @@ const EditPage: React.FC = () => {
       ubosFound: true,
       directorsFound: false
     });
+    
+    // If we're coming from a "no owners" flow, clear the existing owners
+    if (!flowParams.ubosFound) {
+      setActiveOwners([]);
+      setRemovedOwners([]);
+    }
+    
     navigate('/edit-owners');
   };
 
