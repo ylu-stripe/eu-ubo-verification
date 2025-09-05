@@ -3,18 +3,32 @@ import { useNavigate } from 'react-router-dom';
 import { useUBO } from '../../../contexts/UBOContext';
 import PageHeader from '../../ui/PageHeader';
 import fakeDocImage from '../../../fake_doc.png';
+import ESignModal from './ESignModal';
 
 const ReviewAndSign: React.FC = () => {
   const navigate = useNavigate();
   const { activeOwners, directors, isDirectorsFlow } = useUBO();
   const [signatureName, setSignatureName] = useState('');
+  const [showESignModal, setShowESignModal] = useState(false);
   
   const isDirectors = isDirectorsFlow();
   const currentList = isDirectors ? directors : activeOwners;
   
   // For demo purposes, using the first owner's name as the signer
-  const signerName = currentList[0]?.name || 'Peter Parker';
-  const isSignatureComplete = signatureName.toLowerCase().trim() === signerName.toLowerCase().trim();
+  const signerName = 'Peter Parker';
+  const isSignatureComplete = signatureName.toLowerCase().trim() === 'peter parker';
+
+  // Debug logging
+  console.log('Signature validation:', {
+    signatureName,
+    signerName,
+    isSignatureComplete,
+    trimmedSignature: signatureName.toLowerCase().trim(),
+    trimmedSigner: signerName.toLowerCase().trim(),
+    currentList,
+    currentListLength: currentList?.length,
+    firstItem: currentList?.[0]
+  });
 
   const handleBack = () => {
     navigate('/verification-method');
@@ -27,8 +41,16 @@ const ReviewAndSign: React.FC = () => {
   };
 
   const handlePreviewClick = () => {
-    // Could open a larger preview modal or navigate to document view
-    console.log('Document preview clicked');
+    setShowESignModal(true);
+  };
+
+  const handleESignComplete = () => {
+    setShowESignModal(false);
+    // Could navigate to success or show completion message
+  };
+
+  const handleESignClose = () => {
+    setShowESignModal(false);
   };
 
   return (
@@ -88,7 +110,6 @@ const ReviewAndSign: React.FC = () => {
                       src={fakeDocImage} 
                       alt="Beneficial Owner attestation document"
                       className="document-image"
-                      style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: '4px' }}
                     />
                   </div>
                 </div>
@@ -102,13 +123,6 @@ const ReviewAndSign: React.FC = () => {
                     
                     <div className="signature-input-wrapper">
                       <div className="signature-input-container">
-                        {isSignatureComplete && (
-                          <div className="signature-checkmark">
-                            <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
-                              <path d="M10 3L4.5 8.5L2 6" stroke="#fff" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-                            </svg>
-                          </div>
-                        )}
                         <div className="signature-box">
                           <input
                             type="text"
@@ -137,13 +151,19 @@ const ReviewAndSign: React.FC = () => {
             <button
               onClick={handleContinue}
               disabled={!isSignatureComplete}
-              className={`btn btn-primary btn-full-width btn-standalone ${!isSignatureComplete ? 'disabled' : ''}`}
+              className="btn btn-primary btn-full-width btn-standalone"
             >
               Continue
             </button>
           </div>
         </div>
       </div>
+
+      <ESignModal
+        isOpen={showESignModal}
+        onClose={handleESignClose}
+        onComplete={handleESignComplete}
+      />
     </div>
   );
 };

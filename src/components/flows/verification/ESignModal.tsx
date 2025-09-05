@@ -9,7 +9,6 @@ interface ESignModalProps {
 
 const ESignModal: React.FC<ESignModalProps> = ({ isOpen, onClose, onComplete }) => {
   const { activeOwners, directors, isDirectorsFlow } = useUBO();
-  const [legalName, setLegalName] = useState('');
   const [isLoading, setIsLoading] = useState(true);
 
   const isDirectors = isDirectorsFlow();
@@ -34,7 +33,6 @@ const ESignModal: React.FC<ESignModalProps> = ({ isOpen, onClose, onComplete }) 
   };
 
   const handleCancel = () => {
-    setLegalName('');
     setIsLoading(true);
     onClose();
   };
@@ -45,7 +43,7 @@ const ESignModal: React.FC<ESignModalProps> = ({ isOpen, onClose, onComplete }) 
     <div className="esign-overlay">
       <div className="esign-modal">
         <div className="esign-header">
-          <h2 className="esign-title">Review and electronically sign</h2>
+          <h2 className="esign-title">Review document</h2>
           <button className="esign-close" onClick={onClose}>
             ×
           </button>
@@ -53,7 +51,7 @@ const ESignModal: React.FC<ESignModalProps> = ({ isOpen, onClose, onComplete }) 
 
         <div className="esign-content">
           <p className="esign-description">
-            This document confirms your business's beneficial owners. By electronically signing this form, you will officially attest to the accuracy of your company's ownership information.{' '}
+            This document confirms your business's beneficial owners. Please review the information below carefully.{' '}
             <a href="#" className="inline-link">
               View support article
             </a>
@@ -93,28 +91,21 @@ const ESignModal: React.FC<ESignModalProps> = ({ isOpen, onClose, onComplete }) 
                               Full Name of the beneficial owner<br/>
                               <span style={{ fontSize: '10px', fontWeight: '400' }}>(incl. Alias, if any)</span>
                             </th>
-                         
                           </tr>
                         </thead>
                         <tbody>
                           {currentList.filter(item => !item.role || !item.role.includes('Company')).map((item) => (
                             <tr key={item.id}>
-                              <td style={{ border: '1px solid #e5e7eb', padding: '12px', height: '40px' }}>
-                                <div style={{ backgroundColor: '#e5e7eb', height: '3px', width: '80%', borderRadius: '2px' }}></div>
-                                <div style={{ fontSize: '10px', color: '#6b7280', marginTop: '4px' }}>{item.name}</div>
+                              <td style={{ border: '1px solid #e5e7eb', padding: '12px' }}>
+                                {item.name}
                               </td>
-                              
                             </tr>
                           ))}
                         </tbody>
                       </table>
-                      
-                      <div style={{ fontSize: '10px', color: '#6b7280', marginTop: '8px', fontStyle: 'italic' }}>
-                        Note: Please ensure that all names in the above table are also keyed in on the corresponding account's Stripe dashboard.
-                      </div>
                     </div>
 
-                    {/* Legal Entities Section */}
+                    {/* Legal Entities Table */}
                     <div style={{ marginBottom: '24px' }}>
                       <div style={{ fontSize: '14px', fontWeight: '600', marginBottom: '12px' }}>
                         Beneficial owners (legal entities or holding companies)
@@ -143,58 +134,15 @@ const ESignModal: React.FC<ESignModalProps> = ({ isOpen, onClose, onComplete }) 
                     <div style={{ fontSize: '12px', marginBottom: '24px', lineHeight: '1.4' }}>
                       I/We confirm the completeness and accuracy of the information provided in the tables above.
                     </div>
-
-                    {/* Signature Section */}
-                    <div style={{ marginBottom: '16px' }}>
-                      <div style={{ fontSize: '12px', marginBottom: '8px', fontWeight: '600' }}>Signed:</div>
-                      <div style={{ 
-                        border: '2px solid #6366f1', 
-                        borderRadius: '6px',
-                        padding: '12px',
-                        minHeight: '40px',
-                        display: 'flex',
-                        alignItems: 'center',
-                        backgroundColor: legalName ? '#f0f9ff' : 'white',
-                        marginBottom: '8px'
-                      }}>
-                        {legalName && (
-                          <div style={{
-                            fontFamily: 'SF Pro Display, -apple-system, BlinkMacSystemFont, "Segoe Script", "Brush Script MT", cursive',
-                            fontSize: '18px',
-                            fontWeight: '300',
-                            color: '#6366f1',
-                            transform: 'rotate(-1deg)',
-                            fontStyle: 'italic'
-                          }}>
-                            ✗ {legalName}
-                          </div>
-                        )}
-                      </div>
-                      <div style={{ fontSize: '12px', color: '#6b7280' }}>
-                        July 18, 2025
-                      </div>
-                    </div>
                   </div>
                 </div>
               )}
             </div>
           </div>
 
-          <div className="esign-form-section">
-            <label className="esign-form-label">Legal name</label>
-            <input
-              type="text"
-              className="esign-form-input"
-              value={legalName}
-              onChange={(e) => setLegalName(e.target.value)}
-              placeholder="Your name here"
-              disabled={isLoading}
-            />
-          </div>
-
           <div className="esign-disclaimer">
             <div className="esign-agreement-text">
-              By signing, you agree to the terms and conditions set forth above and confirm that all information provided is true and accurate. This electronic signature has the same legal effect as a handwritten signature and you understand that you are bound by the terms of this agreement.
+              Please review the information above and confirm that all details are accurate. You will complete the electronic signature in the next step.
             </div>
           </div>
 
@@ -204,10 +152,10 @@ const ESignModal: React.FC<ESignModalProps> = ({ isOpen, onClose, onComplete }) 
             </button>
             <button
               onClick={handleAccept}
-              disabled={!legalName.trim() || isLoading}
+              disabled={isLoading}
               className="btn btn-primary esign-btn"
             >
-              Accept and e-sign
+              Continue to signature
             </button>
           </div>
         </div>

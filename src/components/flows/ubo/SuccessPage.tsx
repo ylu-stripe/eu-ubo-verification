@@ -23,25 +23,32 @@ const SuccessPage: React.FC = () => {
   if (isInReview) {
     // Show "In Review" version for document upload
     const steps = [
-      { id: 'get-started', label: 'Get started', completed: true },
-      { id: 'confirm-owners', label: 'Confirm owners', completed: true },
-      { id: 'upload-docs', label: 'Upload documents', completed: true },
-      { id: 'submit-information', label: 'Submit information', completed: true }
+      { id: 'get-started', label: 'Get started', active: true },
+      { id: 'confirm-owners', label: 'Confirm owners', active: true },
+      { id: 'upload-docs', label: 'Upload documents', active: true },
+      { id: 'submit-information', label: 'Submit information', active: true }
     ];
 
     return (
       <Modal title={isDirectors ? "Activate payments" : "Verify ownership"}>
-        <div className="success-page-left">
+        <div className="content-section">
           <h1 className="success-title-left">Thanks for submitting your information</h1>
 
-          {/* Progress Stepper */}
-          <div className="success-stepper">
+          {/* Vertical Stepper */}
+          <div className="vertical-stepper">
+            <div className="stepper-line" />
+            
             {steps.map((step, index) => (
-              <div key={step.id} className="success-step">
-                <div className={`success-step-circle ${step.completed ? 'completed' : ''}`}>
-                  {step.completed && '✓'}
+              <div key={step.id} className="stepper-item">
+                <div className={`stepper-circle ${step.active ? 'active' : ''}`}>
+                  {step.active && <div className="stepper-dot active" />}
                 </div>
-                <div className="success-step-label">{step.label}</div>
+                
+                <div className="stepper-content">
+                  <div className={`stepper-label ${step.active ? 'active' : ''}`}>
+                    {step.label}
+                  </div>
+                </div>
               </div>
             ))}
           </div>
@@ -55,7 +62,7 @@ const SuccessPage: React.FC = () => {
 
           <button
             onClick={handleContinue}
-            className="btn btn-primary btn-full-width"
+            className="btn btn-primary btn-full-width btn-standalone"
           >
             Continue
           </button>
@@ -66,27 +73,34 @@ const SuccessPage: React.FC = () => {
 
   // Show "Complete" version for confirmed prefill or e-signed changes
   const completeSteps = [
-    { id: 'get-started', label: 'Get started', completed: true },
-    { id: 'confirm-owners', label: 'Confirm owners', completed: true },
-    ...(userMadeChanges ? [{ id: 'esign-attestation', label: 'E-sign attestation', completed: true }] : []),
-    { id: 'verification-complete', label: 'Verification complete', completed: true }
+    { id: 'get-started', label: 'Get started', active: true },
+    { id: 'confirm-owners', label: 'Confirm owners', active: true },
+    ...(userMadeChanges ? [{ id: 'esign-attestation', label: 'E-sign attestation', active: true }] : []),
+    { id: 'verification-complete', label: 'Verification complete', active: true }
   ];
 
   return (
     <Modal title={isDirectors ? "Activate payments" : "Verify ownership"}>
-      <div className="success-page-left">
+      <div className="content-section">
         <h1 className="success-title-left">
           {userMadeChanges ? 'Thank you for verifying your information' : 'Thank you for verifying your information'}
         </h1>
 
-        {/* Progress Stepper */}
-        <div className="success-stepper">
+        {/* Vertical Stepper */}
+        <div className="vertical-stepper">
+          <div className="stepper-line" />
+          
           {completeSteps.map((step, index) => (
-            <div key={step.id} className="success-step">
-              <div className={`success-step-circle ${step.completed ? 'completed' : ''}`}>
-                {step.completed && '✓'}
+            <div key={step.id} className="stepper-item">
+              <div className={`stepper-circle ${step.active ? 'active' : ''}`}>
+                {step.active && <div className="stepper-dot active" />}
               </div>
-              <div className="success-step-label">{step.label}</div>
+              
+              <div className="stepper-content">
+                <div className={`stepper-label ${step.active ? 'active' : ''}`}>
+                  {step.label}
+                </div>
+              </div>
             </div>
           ))}
         </div>
@@ -103,9 +117,9 @@ const SuccessPage: React.FC = () => {
 
         <button
           onClick={handleContinue}
-          className="btn btn-primary btn-full-width"
+          className="btn btn-primary btn-full-width btn-standalone"
         >
-          Continue to Dashboard
+          Continue
         </button>
       </div>
     </Modal>

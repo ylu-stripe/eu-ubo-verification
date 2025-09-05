@@ -653,7 +653,6 @@ body {
 
 .document-image {
   background-color: white;
-  padding: 16px;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
   height: 150px;
   overflow: hidden;
@@ -716,6 +715,15 @@ body {
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
   height: 180px;
   overflow: hidden;
+  position: relative;
+}
+
+.document-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 4px;
+  display: block;
 }
 
 .document-header-section {
@@ -2505,7 +2513,6 @@ body {
   font-size: 22px;
   font-weight: 600;
   color: #1f2937;
-  margin: 0 0 32px 0;
 }
 
 .success-stepper {
@@ -3386,20 +3393,19 @@ body {
   background-color: #f5f6f8;
   height: 190px;
   cursor: pointer;
-  transition: background-color 0.2s;
-  border-radius: 6px 6px 0 0;
+  transition: all 0.2s;
+  border-radius: 6px;
   margin: 0px 16px 16px 16px;
+  border: 1px solid transparent;
+  overflow: hidden;
 }
 
 .document-preview:hover {
+  border-color: #675dff;
   background-color: #f0f4f8;
 }
 
-.document-preview-content {
-  padding: 0;
-  height: 100%;
-  overflow: hidden;
-}
+
 
 .document-mock {
   background-color: white;
@@ -3474,6 +3480,7 @@ body {
   display: flex;
   align-items: flex-end;
   gap: 12px;
+  width: 100%;
 }
 
 .signature-icon {
@@ -3499,7 +3506,7 @@ body {
 .signature-box {
   width: 100%;
   height: 77px;
-  border: 2px solid #635bff;
+  border: 1px solid #635bff;
   border-radius: 4px;
   background-color: white;
   position: relative;
@@ -3519,6 +3526,8 @@ body {
   position: absolute;
   top: 0;
   left: 0;
+  right: 0;
+  box-sizing: border-box;
 }
 
 .signature-input::placeholder {
@@ -3540,7 +3549,6 @@ body {
   left: 20px;
   right: 20px;
   height: 1px;
-  background-color: #d1d5db;
   pointer-events: none;
 }
 
@@ -3553,6 +3561,21 @@ body {
   left: 20px;
   right: 20px;
   text-align: center;
+}
+
+.signature-checkmark {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  width: 20px;
+  height: 20px;
+  background-color: #10b981;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+  pointer-events: none;
 }
 
 .disclaimer-text {
@@ -3573,13 +3596,15 @@ body {
   color: #533afd;
 }
 
-.btn.disabled {
+.btn.disabled,
+.btn:disabled {
   opacity: 0.6;
   cursor: not-allowed;
   background-color: #e5e7eb;
   color: #9ca3af;
 }
 
-.btn.disabled:hover {
+.btn.disabled:hover,
+.btn:disabled:hover {
   background-color: #e5e7eb;
 }
