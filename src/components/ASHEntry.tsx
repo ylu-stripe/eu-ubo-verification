@@ -73,12 +73,6 @@ const ASHEntry: React.FC = () => {
           </div>
         </div>
         
-        <div className="ash-search">
-          <div className="ash-search-input">
-            <span className="ash-search-icon">🔍</span>
-            <input type="text" placeholder="Search" />
-          </div>
-        </div>
 
         <div className="ash-nav">
           <div className="ash-nav-item">
