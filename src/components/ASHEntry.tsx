@@ -10,10 +10,7 @@ const ASHEntry: React.FC = () => {
     verificationMethod, 
     flowParams,
     shouldShowUBO,
-    markUBORequirementComplete,
-    showToast,
-    toast,
-    clearToast
+    markUBORequirementComplete
   } = useUBO();
 
   // Auto-reset flow when returning to ASH after completing verification
@@ -30,14 +27,10 @@ const ASHEntry: React.FC = () => {
 
     if (manualReviewParam === 'ubo' && !flowParams.uboRequirementComplete) {
       markUBORequirementComplete();
-      // Wait 1 second after submission, then show toast
-      setTimeout(() => {
-        showToast('Manual review complete');
-      }, 1000);
       // Clean up the URL parameter
       setSearchParams({});
     }
-  }, [searchParams, verificationMethod, flowParams.uboRequirementComplete, resetState, setSearchParams, markUBORequirementComplete, showToast]);
+  }, [searchParams, verificationMethod, flowParams.uboRequirementComplete, resetState, setSearchParams, markUBORequirementComplete]);
 
   const handleTaskClick = (taskId: string) => {
     if (taskId === 'task_ubo') {
@@ -71,17 +64,6 @@ const ASHEntry: React.FC = () => {
 
   return (
     <div className="ash-dashboard">
-      {/* Toast Notification */}
-      {toast && (
-        <div className="ash-toast">
-          <div className="ash-toast-content">
-            <span className="ash-toast-icon">✅</span>
-            <span className="ash-toast-message">{toast}</span>
-            <button onClick={clearToast} className="ash-toast-close">×</button>
-          </div>
-        </div>
-      )}
-
       {/* Sidebar */}
       <div className="ash-sidebar">
         <div className="ash-sidebar-header">
